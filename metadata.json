@@ -1,0 +1,6 @@
+{
+  "name": "Harrsha Global",
+  "description": "Premium corporate website for Harrsha Global, an industrial company specializing in Bulletproof Sheet Manufacturing, Granite, Mines & Minerals, and Real Estate & Infrastructure.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
