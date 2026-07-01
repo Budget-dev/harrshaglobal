@@ -89,8 +89,8 @@ export function Navbar() {
               </div>
             </div>
 
-            <a href="/#blog" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>BLOG</a>
-            <a href="/#contact" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>CONTACT US</a>
+            <Link to="/blog" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>BLOG</Link>
+            <Link to="/contact" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>CONTACT US</Link>
           </nav>
 
           {/* Right Icons */}
@@ -138,8 +138,8 @@ export function Navbar() {
               <Link to="/services/mines-minerals" onClick={() => setIsMobileMenuOpen(false)} className="pl-4">Mines & Minerals</Link>
             </div>
 
-            <a href="/#blog" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase">BLOG</a>
-            <a href="/#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase">CONTACT US</a>
+            <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase">BLOG</Link>
+            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase">CONTACT US</Link>
           </nav>
         </div>
       </div>

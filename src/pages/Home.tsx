@@ -5,7 +5,6 @@ import { Services } from '../components/Services';
 import { FeaturesBanner } from '../components/FeaturesBanner';
 import { FullWidthImage } from '../components/FullWidthImage';
 import { Testimonials } from '../components/Testimonials';
-import { Articles } from '../components/Articles';
 
 export function Home() {
   useEffect(() => {
@@ -20,7 +19,6 @@ export function Home() {
       <FeaturesBanner />
       <FullWidthImage />
       <Testimonials />
-      <Articles />
     </>
   );
 }

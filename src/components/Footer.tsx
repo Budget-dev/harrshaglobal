@@ -43,21 +43,21 @@ export function Footer() {
           <div>
             <h3 className="mb-4 text-lg font-semibold">Quick Links</h3>
             <nav className="space-y-3 text-sm">
-              <a href="/#about" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
+              <Link to="/about" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
                 About Us
-              </a>
+              </Link>
               <a href="/#services" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
                 Services
               </a>
               <Link to="/services/bulletproof-sheet-manufacturing" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
                 Products
               </Link>
-              <a href="/#blog" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
+              <Link to="/blog" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
                 Blog
-              </a>
-              <a href="/#contact" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
+              </Link>
+              <Link to="/contact" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
                 Contact
-              </a>
+              </Link>
             </nav>
           </div>
           
