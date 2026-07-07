@@ -365,6 +365,7 @@ interface ServiceItemProps {
   }
   delay: number
   direction: "left" | "right"
+  key?: any;
 }
 
 function ServiceItem({ icon, secondaryIcon, title, description, variants, delay, direction }: ServiceItemProps) {
@@ -419,6 +420,7 @@ interface StatCounterProps {
   label: string
   suffix: string
   delay: number
+  key?: any;
 }
 
 function StatCounter({ icon, value, label, suffix, delay }: StatCounterProps) {

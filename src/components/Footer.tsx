@@ -52,6 +52,12 @@ export function Footer() {
               <Link to="/services/bulletproof-sheet-manufacturing" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
                 Products
               </Link>
+              <Link to="/services/sponge-iron" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
+                Sponge Iron
+              </Link>
+              <Link to="/portfolio" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
+                Portfolio
+              </Link>
               <Link to="/blog" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
                 Blog
               </Link>
@@ -67,7 +73,15 @@ export function Footer() {
               <p>Visakhapatnam</p>
               <p>Andhra Pradesh, India</p>
               <p>Phone: +91 73967 34389</p>
-              <p>Email: info@harrsha.com</p>
+              <p>
+                Email:{' '}
+                <a 
+                  href="mailto:Info@harrshaglobal.com" 
+                  className="hover:text-primary transition-colors"
+                >
+                  Info@harrshaglobal.com
+                </a>
+              </p>
             </address>
           </div>
           

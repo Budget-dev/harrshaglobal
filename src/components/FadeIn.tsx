@@ -7,6 +7,7 @@ interface FadeInProps {
   direction?: 'up' | 'down' | 'left' | 'right' | 'none';
   className?: string;
   duration?: number;
+  key?: any;
 }
 
 export function FadeIn({ children, delay = 0, direction = 'up', className = '', duration = 0.6 }: FadeInProps) {

@@ -1,99 +1,531 @@
-import { FadeIn } from '../../components/FadeIn';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Building2, HardHat, ShieldCheck, Ruler } from 'lucide-react';
+import { FadeIn } from '../../components/FadeIn';
+import { 
+  Building2, 
+  Check, 
+  MapPin, 
+  Award, 
+  Layers, 
+  Home, 
+  ExternalLink,
+  ArrowRight,
+  HardHat,
+  X,
+  Sparkles,
+  Zap,
+  ShieldCheck,
+  Trees
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+
+interface ProjectItem {
+  id: string;
+  title: string;
+  desc: string;
+  type: 'infrastructure' | 'realestate';
+  image: string;
+  location: string;
+  tag?: string;
+  specs: string[];
+  highlights: string[];
+}
 
 export function RealEstate() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const [activeTab, setActiveTab] = useState<'all' | 'infrastructure' | 'realestate'>('all');
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+
+  const projects: ProjectItem[] = [
+    {
+      id: "premium-layouts",
+      title: "Premium Residential Layouts",
+      type: "realestate",
+      tag: "DTCP & VUDA Approved",
+      desc: "Carefully planned, legally approved plotted developments offering high-yield appreciation in strategic corridors with clear title guarantees.",
+      image: "https://vennky.sirv.com/iron%20spongs/ballari/Don't%20Just%20List%20It_%20Visualize%20It_.jpg",
+      location: "Visakhapatnam & Anakapalli Zones",
+      specs: [
+        "VUDA & DTCP Regulatory Approvals",
+        "100% Vastu Compliant Plotting",
+        "Underground Drainage & Blacktop Roads",
+        "High-Yield Investment Corridors"
+      ],
+      highlights: [
+        "Immediate registration & clear land title deeds",
+        "Lush green parks and active avenue plantation structures",
+        "Strategic proximity to upcoming expressways and railway lines",
+        "24/7 boundary-fenced perimeter with layout security"
+      ]
+    },
+    {
+      id: "mini-steel-support",
+      title: "Mini Steel Plant Heavy Infrastructure",
+      type: "infrastructure",
+      tag: "Heavy Civil Engineering",
+      desc: "Constructing massive structural foundations, rotary kiln supports, raw storage bays, and material handling grids for heavy industrial operations.",
+      image: "https://vennky.sirv.com/iron%20spongs/WhatsApp%20Image%202026-07-03%20at%207.13.59%20PM.jpeg", // Sponge iron kiln!
+      location: "Anakapalli Industrial Hub",
+      specs: [
+        "High-Temperature Rotary Kiln Foundations",
+        "Reinforced Heavy-Load Bins & Gantry Rails",
+        "Integrated Waste Heat Recovery Structuring",
+        "Sponge Iron Storage & Delivery Silos"
+      ],
+      highlights: [
+        "Sustains heavy dynamic and thermal cyclic loading safely",
+        "Engineered with ultra-durable reinforced concrete blends",
+        "Perfect integration with automated logistics conveyor towers",
+        "Zero-tolerance structural safety factor compliance standards"
+      ]
+    },
+    {
+      id: "luxury-villas",
+      title: "Luxury Villas & Modern Apartments",
+      type: "realestate",
+      tag: "Contemporary Architecture",
+      desc: "Crafting beautiful architectural masterpieces featuring spacious open layouts, premium grade materials, and abundant natural ventilation.",
+      image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200",
+      location: "Vizag Smart City Limits",
+      specs: [
+        "Architect-Designed Smart Layouts",
+        "High-Grade Italian Marble & Granite Finishes",
+        "Premium Soundproof Polycarbonate Glazing",
+        "Solar-Powered Grid Backup Ready"
+      ],
+      highlights: [
+        "Private swimming pool and landscaped roof terraces",
+        "Multi-car garages with electric vehicle charging docks",
+        "Eco-friendly rainwater collection and greywater treatment",
+        "Ultra-fast fiber optic connectivity pre-routed throughout"
+      ]
+    },
+    {
+      id: "transit-loading",
+      title: "Logistics Terminals & Bulk Loading Bays",
+      type: "infrastructure",
+      tag: "Industrial Logistics",
+      desc: "Constructing high-volume railway loading stations, hopper grids, and transit depots to ensure frictionless bulk mineral dispatch.",
+      image: "https://vennky.sirv.com/iron%20spongs/ballari/WhatsApp%20Image%202026-07-03%20at%207.14.00%20PM.jpeg", // Sponge iron cargo loading!
+      location: "Ballari & Odisha Rail Terminals",
+      specs: [
+        "High-Capacity Bulk Cargo Hoppers",
+        "Heavy Vehicle Turning Loops & Loading Platforms",
+        "Precision Automated Weighbridge Infrastructure",
+        "Integrated Dust Suppression Systems"
+      ],
+      highlights: [
+        "Optimized to handle 20,000+ metric tons of daily dispatch",
+        "Constructed with high-abrasion monolithic wear-slabs",
+        "Direct connection to main commercial broad-gauge railway sidings",
+        "Advanced safety parameters for heavy industrial loaders and trucks"
+      ]
+    },
+    {
+      id: "gated-communities",
+      title: "Secure Gated Communities",
+      type: "realestate",
+      tag: "Secure Living Enclaves",
+      desc: "Delivering modern, fully enclosed neighborhoods featuring state-of-the-art utilities, underground electricity, clubhouses, and active surveillance.",
+      image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=1200",
+      location: "Kapuluppada Scenic Sectors",
+      specs: [
+        "24/7 Security Patrol & Smart CCTV Arcs",
+        "Underground Fiber, Water & Power Cables",
+        "Multi-tier Clubhouse & Wellness Center",
+        "35% Dedicated Green Belt Coverage"
+      ],
+      highlights: [
+        "Walkways, cycling paths, and outdoor active arenas",
+        "Centralized solar-assisted street illumination networks",
+        "In-house property management and waste recovery cells",
+        "Strategically located near major educational and medical zones"
+      ]
+    },
+    {
+      id: "roads-highways",
+      title: "Expressways & Industrial Roadways",
+      type: "infrastructure",
+      tag: "Civil Infrastructure",
+      desc: "Laying robust, heavy-grade asphalt and concrete roadways designed to connect national logistics corridors and carry multi-axle freight.",
+      image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=1200",
+      location: "National Highway Corridors",
+      specs: [
+        "Rigid Jointed Cement Concrete (PQC) Pavements",
+        "High-Performance Asphalt Overlays",
+        "Heavy-Duty Retaining & Structural Walls",
+        "Advanced High-Reflective Road Markings"
+      ],
+      highlights: [
+        "Designed to withstand 100+ million standard axles (MSA)",
+        "Equipped with optimal runoff stormwater drainage ditches",
+        "Advanced seismic-resilient grading across rugged geographical terrains",
+        "Integrated toll and cargo-monitoring lay-by infrastructure"
+      ]
+    },
+    {
+      id: "commercial-complexes",
+      title: "Commercial Spaces & Office Towers",
+      type: "realestate",
+      tag: "Strategic Corporate Spaces",
+      desc: "Building highly efficient corporate environments, modern business offices, retail complexes, and commercial tech zones.",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200",
+      location: "Vizag High-Tech Zone",
+      specs: [
+        "Double-Glazed Polycarbonate Low-E Curtains",
+        "Flexible Column-Free Internal Floor Plates",
+        "Smart BMS (Building Management Systems)",
+        "Generous Grade-A Parking Infrastructure"
+      ],
+      highlights: [
+        "Integrated high-speed multi-destination elevators",
+        "LEED Gold certified architectural sustainability principles",
+        "Advanced fire suppression systems with fire-safe stairwells",
+        "Located in the premier commercial district with high connectivity"
+      ]
+    },
+    {
+      id: "solar-energy-parks",
+      title: "Utility-Scale Solar Energy Parks",
+      type: "infrastructure",
+      tag: "Green Power Infrastructure",
+      desc: "Designing structural array mounts, high-capacity converter yards, and complete access layouts for utility-scale renewable parks.",
+      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200",
+      location: "Rayalaseema Energy Zone",
+      specs: [
+        "High-Durability Galvanized Structural Piles",
+        "Smart Tracking Photovoltaic Foundations",
+        "Substation Civil Grading & Control Blocks",
+        "Robust Security Perimeters & Ingress Gates"
+      ],
+      highlights: [
+        "Seismically validated and wind-tunnel tested structural steel mounts",
+        "Minimal environmental footprint with integrated storm mitigation channels",
+        "Strategic layout designed for rapid preventative maintenance vehicle access",
+        "Engineered to sustain harsh, direct solar radiation over a 25-year lifecycle"
+      ]
+    }
+  ];
+
+  const filteredProjects = activeTab === 'all' 
+    ? projects 
+    : projects.filter(p => p.type === activeTab);
+
+  const reasons = [
+    {
+      title: "Trusted Global Quality",
+      desc: "We apply global engineering and safety standards across our industrial and real estate footprints."
+    },
+    {
+      title: "100% Legal Clearance",
+      desc: "Absolute zero-compromise regulatory approach. Every layout carries authentic DTCP, VUDA, and local approval credentials."
+    },
+    {
+      title: "Eco-Conscious Greenery",
+      desc: "We focus on rainwater harvesting, extensive green belts, and low-carbon construction methods."
+    },
+    {
+      title: "Strategic Landholding",
+      desc: "Our projects sit directly within high-growth industrial, residential, and logistics corridors for maximum yield."
+    }
+  ];
+
   return (
-    <div className="pt-32 pb-24 bg-background min-h-screen">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div className="pt-32 pb-24 bg-zinc-950 text-white min-h-screen selection:bg-primary selection:text-white">
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+        
+        {/* Main Header */}
         <FadeIn>
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-            <div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6 leading-tight">
-                Shaping the <span className="text-primary/70">Skylines</span> of Tomorrow
-              </h1>
-              <p className="text-lg text-primary/70 leading-relaxed mb-8">
-                Harrsha Global delivers end-to-end real estate solutions and large-scale infrastructure projects. From visionary planning to precision construction, we build commercial, residential, and industrial properties defined by structural integrity, sustainability, and smart design.
-              </p>
-              <div className="flex gap-4">
-                <button className="px-8 py-3 bg-primary text-white font-medium hover:bg-primary/90 transition-colors rounded-full">
-                  Discuss a Project
-                </button>
-              </div>
-            </div>
-            <div className="relative aspect-square lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000" 
-                alt="Modern Real Estate Infrastructure" 
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
-            </div>
+          <div className="text-center max-w-4xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-6 border border-primary/20">
+              <Building2 size={14} className="animate-pulse" /> Engineering Legacies
+            </span>
+            <h1 className="text-4xl md:text-6xl font-medium tracking-tight mb-6">
+              Real Estate & Infrastructure
+            </h1>
+            <p className="text-xs md:text-sm text-zinc-400 font-mono tracking-widest uppercase mb-6">
+              Infrastructure | Plotted Layouts | Heavy Industry Foundations
+            </p>
+            <p className="text-zinc-400 text-base md:text-lg leading-relaxed font-light">
+              Harrshaglobal Pvt Ltd is a premium developer of heavy civil infrastructure, logistics hubs, industrial plant layouts, and residential gated communities. We blend structural steel integrity with clean environmental master planning.
+            </p>
           </div>
-
-          {/* Capabilities Grid */}
-          <div className="mb-24">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-primary mb-4">Core Capabilities</h2>
-              <p className="text-primary/70 max-w-2xl mx-auto">
-                Comprehensive development services tailored to modern architectural demands.
-              </p>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                {
-                  icon: Building2,
-                  title: "Commercial Spaces",
-                  desc: "State-of-the-art corporate offices, retail complexes, and business parks designed for productivity."
-                },
-                {
-                  icon: HardHat,
-                  title: "Industrial Plants",
-                  desc: "Heavy-duty manufacturing facilities, warehouses, and logistical hubs with advanced utility integration."
-                },
-                {
-                  icon: ShieldCheck,
-                  title: "Quality Assurance",
-                  desc: "Rigorous material testing, structural engineering audits, and compliance with international safety codes."
-                },
-                {
-                  icon: Ruler,
-                  title: "Urban Planning",
-                  desc: "Sustainable master planning, landscaping, and civic infrastructure development."
-                }
-              ].map((item, idx) => (
-                <div key={idx} className="bg-primary/5 p-8 rounded-2xl border border-primary/10 hover:bg-primary/10 transition-colors">
-                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center mb-6 shadow-sm border border-primary/5">
-                    <item.icon className="text-primary" size={24} />
-                  </div>
-                  <h3 className="text-xl font-semibold text-primary mb-3">{item.title}</h3>
-                  <p className="text-primary/60 text-sm leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Video Section */}
-          <div className="relative aspect-[21/9] rounded-3xl overflow-hidden bg-primary mb-24 flex items-center justify-center">
-            <video 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover opacity-60"
-            >
-              <source src="https://cdn.pixabay.com/video/2019/11/04/28734-371485609_large.mp4" type="video/mp4" />
-            </video>
-            <div className="relative z-10 text-center px-6">
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Engineered for Generations</h2>
-              <p className="text-white/80 text-lg max-w-2xl mx-auto">
-                We believe that great infrastructure is the foundation of economic growth. Our projects are built to withstand the test of time, blending aesthetic brilliance with unmatched durability.
-              </p>
-            </div>
-          </div>
-          
         </FadeIn>
+
+        {/* Tab Switcher Controls */}
+        <div className="flex justify-center mb-16">
+          <div className="inline-flex bg-zinc-900 border border-zinc-800 p-1.5 rounded-full gap-2 relative">
+            <button
+              onClick={() => setActiveTab('all')}
+              className={`px-6 py-2.5 rounded-full text-sm font-medium tracking-wider uppercase transition-all duration-300 relative cursor-pointer z-10 ${
+                activeTab === 'all' ? 'text-zinc-950 font-semibold' : 'text-zinc-400 hover:text-white'
+              }`}
+            >
+              {activeTab === 'all' && (
+                <motion.div 
+                  layoutId="activeTabBg" 
+                  className="absolute inset-0 bg-white rounded-full -z-10"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              All Divisions
+            </button>
+            <button
+              onClick={() => setActiveTab('infrastructure')}
+              className={`px-6 py-2.5 rounded-full text-sm font-medium tracking-wider uppercase transition-all duration-300 relative cursor-pointer z-10 ${
+                activeTab === 'infrastructure' ? 'text-zinc-950 font-semibold' : 'text-zinc-400 hover:text-white'
+              }`}
+            >
+              {activeTab === 'infrastructure' && (
+                <motion.div 
+                  layoutId="activeTabBg" 
+                  className="absolute inset-0 bg-white rounded-full -z-10"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              Infrastructure
+            </button>
+            <button
+              onClick={() => setActiveTab('realestate')}
+              className={`px-6 py-2.5 rounded-full text-sm font-medium tracking-wider uppercase transition-all duration-300 relative cursor-pointer z-10 ${
+                activeTab === 'realestate' ? 'text-zinc-950 font-semibold' : 'text-zinc-400 hover:text-white'
+              }`}
+            >
+              {activeTab === 'realestate' && (
+                <motion.div 
+                  layoutId="activeTabBg" 
+                  className="absolute inset-0 bg-white rounded-full -z-10"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              Real Estate
+            </button>
+          </div>
+        </div>
+
+        {/* Grid of Projects */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-24">
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project) => (
+              <motion.div
+                key={project.id}
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                className="group relative flex flex-col bg-zinc-900 border border-zinc-800/80 rounded-3xl overflow-hidden shadow-lg hover:border-white/25 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500"
+              >
+                {/* Image Wrap */}
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-90" />
+                  
+                  {/* Badge */}
+                  <span className={`absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                    project.type === 'infrastructure' 
+                      ? 'bg-primary text-white' 
+                      : 'bg-emerald-600 text-white'
+                  }`}>
+                    {project.type === 'infrastructure' ? 'Infrastructure' : 'Real Estate'}
+                  </span>
+
+                  {/* Location label */}
+                  <div className="absolute bottom-4 left-4 flex items-center gap-1.5 text-xs text-zinc-300 font-medium">
+                    <MapPin size={12} className="text-primary" />
+                    <span>{project.location}</span>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-6 flex flex-col flex-grow justify-between">
+                  <div>
+                    <span className="text-[10px] text-zinc-500 font-mono tracking-widest block mb-2 uppercase">
+                      {project.tag || 'Certified Venture'}
+                    </span>
+                    <h3 className="text-lg font-semibold mb-3 text-white tracking-tight leading-snug group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-zinc-400 text-xs font-light leading-relaxed mb-6 line-clamp-3">
+                      {project.desc}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => setSelectedProject(project)}
+                    className="flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:text-white transition-colors uppercase tracking-widest mt-auto cursor-pointer"
+                  >
+                    Explore Specifications <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {/* Why Choose Us Section */}
+        <div className="bg-zinc-900 rounded-3xl border border-zinc-800/80 p-8 md:p-16 mb-24">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-flex items-center gap-1 bg-primary/10 text-primary px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-primary/20">
+              <Sparkles size={12} /> Strategic Advantage
+            </span>
+            <h2 className="text-3xl font-semibold tracking-tight text-white">
+              Why Partner with Harrshaglobal?
+            </h2>
+            <p className="text-zinc-400 text-sm md:text-base font-light leading-relaxed mt-3">
+              We engineer structures that last generations, combining strict legal transparency with robust construction.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {reasons.map((reason, idx) => (
+              <div key={idx} className="bg-zinc-950 p-6 rounded-2xl border border-zinc-800/60 hover:border-zinc-700 transition-colors flex flex-col">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 border border-primary/20">
+                  <Award size={18} />
+                </div>
+                <h4 className="text-base font-medium text-white mb-2 tracking-tight">
+                  {reason.title}
+                </h4>
+                <p className="text-zinc-400 text-xs font-light leading-relaxed">
+                  {reason.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Dynamic CTA Block */}
+        <div className="relative rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 p-12 lg:p-20 text-center">
+          <div className="absolute inset-0 opacity-10">
+            <img 
+              src="https://vennky.sirv.com/iron%20spongs/ballari/Don't%20Just%20List%20It_%20Visualize%20It_.jpg" 
+              alt="Harrshaglobal Infrastructure Background" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="relative z-10 max-w-3xl mx-auto space-y-6">
+            <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white">
+              Let's Develop Your Next Venture
+            </h2>
+            <p className="text-zinc-400 text-base font-light leading-relaxed">
+              Connect with our master planning and heavy engineering desks to secure DTCP/VUDA approved layouts, solar grids, transit siding, or mini steel foundations.
+            </p>
+            <div className="pt-4">
+              <Link 
+                to="/contact" 
+                className="px-8 py-3.5 bg-white hover:bg-zinc-200 text-zinc-950 font-bold transition-all hover:scale-105 rounded-full inline-flex items-center gap-2 shadow-xl text-xs uppercase tracking-wider"
+              >
+                Consult Our Engineering Desk
+              </Link>
+            </div>
+          </div>
+        </div>
+
       </div>
+
+      {/* Project Specifications Lightbox Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-5xl bg-zinc-900 rounded-3xl border border-zinc-800 overflow-hidden shadow-2xl max-h-[90vh] flex flex-col md:flex-row"
+            >
+              {/* Close Button */}
+              <button 
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 z-20 bg-black/60 hover:bg-white hover:text-black transition-colors p-2 rounded-full cursor-pointer text-white"
+                title="Close specifications"
+              >
+                <X size={18} />
+              </button>
+
+              {/* Left Side: Dynamic Image */}
+              <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[500px]">
+                <img 
+                  src={selectedProject.image} 
+                  alt={selectedProject.title} 
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
+                
+                <div className="absolute bottom-8 left-8 right-8">
+                  <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                    selectedProject.type === 'infrastructure' 
+                      ? 'bg-primary text-white' 
+                      : 'bg-emerald-600 text-white'
+                  }`}>
+                    {selectedProject.type === 'infrastructure' ? 'Infrastructure' : 'Real Estate'}
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mt-3 leading-snug">
+                    {selectedProject.title}
+                  </h3>
+                  <p className="text-zinc-300 text-xs flex items-center gap-1.5 mt-2 font-medium">
+                    <MapPin size={12} className="text-primary" />
+                    {selectedProject.location}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right Side: Specifications */}
+              <div className="w-full md:w-1/2 p-8 lg:p-12 overflow-y-auto flex flex-col justify-between">
+                <div>
+                  <span className="text-[10px] text-zinc-500 font-mono tracking-widest uppercase block mb-3">
+                    {selectedProject.tag || 'Harrshaglobal Certified Venture'}
+                  </span>
+                  <h4 className="text-zinc-100 text-sm font-semibold mb-4 uppercase tracking-wider border-b border-zinc-800 pb-2">
+                    Project Specifications
+                  </h4>
+                  <ul className="space-y-3 mb-8">
+                    {selectedProject.specs.map((spec, i) => (
+                      <li key={i} className="flex gap-2.5 text-zinc-300 text-sm font-light leading-relaxed">
+                        <span className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
+                          ✓
+                        </span>
+                        <span>{spec}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <h4 className="text-zinc-100 text-sm font-semibold mb-4 uppercase tracking-wider border-b border-zinc-800 pb-2">
+                    Key Highlights & Advantages
+                  </h4>
+                  <ul className="space-y-3">
+                    {selectedProject.highlights.map((hl, i) => (
+                      <li key={i} className="flex gap-2.5 text-zinc-300 text-sm font-light leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 mt-2" />
+                        <span>{hl}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="pt-8 mt-8 border-t border-zinc-800 flex flex-wrap gap-4 items-center justify-between">
+                  <div className="text-xs text-zinc-500 font-mono">
+                    HARRSHAGLOBAL GROUP
+                  </div>
+                  <Link
+                    to="/contact"
+                    onClick={() => setSelectedProject(null)}
+                    className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-full font-semibold transition-colors text-xs uppercase tracking-wider flex items-center gap-1"
+                  >
+                    Inquire Details <ArrowRight size={14} />
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

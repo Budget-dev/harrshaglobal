@@ -9,7 +9,7 @@ export function BulletproofSheet() {
         <FadeIn>
           <div className="aspect-[21/9] w-full overflow-hidden mb-16 rounded-2xl">
             <img 
-              src="https://images.unsplash.com/photo-1565515268482-166f287e0766?auto=format&fit=crop&q=80&w=2000" 
+              src="https://vennky.sirv.com/iron%20spongs/ballari/Microsoft_%20Project%20Silica.jpg" 
               alt="Bulletproof Sheet Manufacturing" 
               className="w-full h-full object-cover"
             />

@@ -11,7 +11,7 @@ export function MinesMinerals() {
           <div className="relative rounded-3xl overflow-hidden mb-20 bg-primary">
             <div className="absolute inset-0">
               <img 
-                src="https://images.unsplash.com/photo-1578328819058-b69f3a3b0f6b?auto=format&fit=crop&q=80&w=2000" 
+                src="https://vennky.sirv.com/iron%20spongs/ballari/%23musuemofnaturalhistory.jpg" 
                 alt="Mines & Minerals Exploration" 
                 className="w-full h-full object-cover opacity-60 mix-blend-overlay"
               />

@@ -20,8 +20,8 @@ export function Contact() {
             </h1>
             <p className="text-gray-500 text-lg">
               Or just reach out manually to us at{' '}
-              <a href="mailto:info@harrshaglobal.com" className="text-[#6b66ff] hover:underline">
-                info@harrshaglobal.com
+              <a href="mailto:Info@harrshaglobal.com" className="text-[#6b66ff] hover:underline">
+                Info@harrshaglobal.com
               </a>
             </p>
           </div>

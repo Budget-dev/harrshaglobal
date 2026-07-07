@@ -6,26 +6,32 @@ const services = [
   {
     title: 'Bulletproof Sheet Manufacturing',
     description: 'Advanced protective sheet manufacturing for defense, industrial safety, and high-security infrastructure.',
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800',
+    image: 'https://vennky.sirv.com/iron%20spongs/ballari/Microsoft_%20Project%20Silica.jpg',
     link: '/services/bulletproof-sheet-manufacturing'
   },
   {
     title: 'Real Estate & Infrastructure',
     description: 'End-to-end real estate solutions – from planning to construction. We develop residential, commercial, and industrial properties with structural integrity and smart design.',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800',
+    image: "https://vennky.sirv.com/iron%20spongs/ballari/Don't%20Just%20List%20It_%20Visualize%20It_.jpg",
     link: '/services/real-estate-infrastructure'
   },
   {
     title: 'Granite',
     description: 'Premium-grade granite extracted from certified quarries. Ideal for domestic use, exports, and commercial interiors.',
-    image: 'https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&q=80&w=800',
+    image: 'https://vennky.sirv.com/iron%20spongs/ballari/Granite_%20Building%20Uses%2C%20Attributes%2C%20Price%20And%20Design%20Trends.jpg',
     link: '/services/granite'
   },
   {
     title: 'Mines & Minerals',
     description: 'Sustainable exploration and extraction of essential minerals. We ensure regulatory compliance and ecological responsibility in every project.',
-    image: 'https://images.unsplash.com/photo-1587582423116-ec07293f0395?auto=format&fit=crop&q=80&w=800',
+    image: 'https://vennky.sirv.com/iron%20spongs/ballari/%23musuemofnaturalhistory.jpg',
     link: '/services/mines-minerals'
+  },
+  {
+    title: 'Sponge Iron',
+    description: 'State-of-the-art 100,000 MT per year direct reduction iron (DRI) plant operating in Anakapalli, Visakhapatnam.',
+    image: 'https://vennky.sirv.com/iron%20spongs/WhatsApp%20Image%202026-07-03%20at%207.13.59%20PM.jpeg',
+    link: '/services/sponge-iron'
   }
 ];
 
@@ -45,12 +51,12 @@ export function Services() {
               Diversified Industrial Excellence
             </h2>
             <p className="text-primary/70 text-lg">
-              Operating at the highest levels of global industry standards, delivering uncompromising quality across four major sectors.
+              Operating at the highest levels of global industry standards, delivering uncompromising quality across five major sectors.
             </p>
           </FadeIn>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {services.map((service, idx) => (
             <FadeIn key={idx} delay={idx * 0.1}>
               <Link to={service.link} className="group relative aspect-square md:aspect-[4/5] overflow-hidden rounded-2xl cursor-pointer block">
