@@ -51,8 +51,8 @@ export function Hero() {
 
       <section className="relative min-h-screen w-full flex items-center justify-center bg-slate-950 text-white overflow-hidden pt-[88px] md:pt-[110px] pb-12 md:pb-20">
         
-        {/* Full-Bleed Background Video with Dark Overlay (approx 55% opacity for supreme readability) */}
-        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+        {/* Full-Bleed Background Video with Dark Overlay - Only on Mobile */}
+        <div className="block md:hidden absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
           <video 
             src="https://vennky.sirv.com/Firefly%20Create%20a%20premium%204K%20vertical%20(9-16)%20cinematic%20animation%20for%20a%20modern%20global%20architecture%20and.mp4"
             autoPlay
