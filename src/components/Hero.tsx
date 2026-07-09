@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FadeIn } from './FadeIn';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, Factory, Building2, Pickaxe } from 'lucide-react';
 import Globe from './ui/globe';
 
 export function Hero() {
@@ -48,56 +49,146 @@ export function Hero() {
         <div className="w-8 h-8 border-2 border-slate-200 border-t-blue-600 rounded-full animate-spin" />
       </div>
 
-      <section className="relative min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#F5F7FA] via-[#FAFAFC] to-[#FFFFFF] text-slate-900 overflow-hidden pt-[80px] pb-12">
+      <section className="relative min-h-screen w-full flex items-center justify-center bg-slate-950 text-white overflow-hidden pt-[88px] md:pt-[110px] pb-12 md:pb-20">
         
+        {/* Full-Bleed Background Video with Dark Overlay (approx 55% opacity for supreme readability) */}
+        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+          <video 
+            src="https://vennky.sirv.com/Firefly%20Create%20a%20premium%204K%20vertical%20(9-16)%20cinematic%20animation%20for%20a%20modern%20global%20architecture%20and.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-slate-950/55 backdrop-blur-[0.5px]" />
+        </div>
+
         {/* Subtle glow / light highlights on the right behind the globe */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-100/30 rounded-full blur-[140px] pointer-events-none z-0" />
-        <div className="absolute right-[5%] top-[40%] w-[400px] h-[400px] bg-sky-200/20 rounded-full blur-[100px] pointer-events-none z-0" />
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/10 rounded-full blur-[140px] pointer-events-none z-0" />
+        <div className="absolute right-[5%] top-[40%] w-[400px] h-[400px] bg-sky-500/10 rounded-full blur-[100px] pointer-events-none z-0" />
 
         {/* Content Container */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col justify-center min-h-[calc(100vh-80px)]">
+        <div className="relative z-20 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col justify-center min-h-[calc(100vh-110px)]">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center py-4 w-full">
             
             {/* Left Content Column (60% width) */}
-            <div className="lg:col-span-7 xl:col-span-7 text-left flex flex-col justify-center py-4 z-20">
+            <div className="lg:col-span-8 xl:col-span-8 text-left flex flex-col justify-center py-4 z-20">
               <FadeIn>
                 {/* Accent line above heading */}
-                <div className="w-12 h-[3px] bg-blue-600 mb-6 rounded-full" />
+                <div className="w-12 h-[3px] bg-blue-500 mb-6 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
 
                 {/* Company Name */}
-                <p className="text-xs font-semibold tracking-[0.25em] text-blue-600 uppercase mb-3 font-sans">
-                  HARRSHA GLOBAL PVT LTD
+                <p className="text-xs font-semibold tracking-[0.25em] text-blue-400 uppercase mb-3 font-sans drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                  Harrsha Global Pvt. Ltd.
                 </p>
                 
-                {/* Main Subtitle */}
-                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.15] mb-5 font-sans">
-                  Connecting Global Resources,<br />
-                  <span className="text-slate-800">
-                    Engineering & Sustainable Growth.
-                  </span>
+                {/* Main Heading */}
+                <h1 className="text-3xl md:text-5xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-white leading-[1.15] mb-5 font-sans drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
+                  Building India's Future<br />
+                  <span className="text-blue-400">Through Resources, Infrastructure & Industry</span>
                 </h1>
                 
-                {/* Description Text */}
-                <p className="text-sm md:text-base text-slate-600 font-normal leading-relaxed max-w-xl mb-8">
-                  Delivering excellence across manufacturing, infrastructure, mining, granite, and global trade through innovation, reliability, and long-term partnerships.
+                {/* Subheading */}
+                <p className="text-sm md:text-base text-slate-200 font-normal leading-relaxed max-w-2xl mb-8 drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]">
+                  Harrsha Global Pvt. Ltd. is a diversified enterprise with interests in mining, minerals, infrastructure, real estate, manufacturing, and industrial development, delivering sustainable growth and long-term value.
                 </p>
                 
-                {/* Premium Corporate Button */}
-                <div className="flex flex-col sm:flex-row items-start gap-4">
+                {/* Business Highlights Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 md:mb-10 max-w-3xl text-left">
+                  {/* Highlight 1 */}
+                  <div className="bg-white/5 border border-white/10 hover:border-white/20 backdrop-blur-md p-4 rounded-xl transition-all duration-300">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-blue-500/15 rounded-lg text-blue-400 shrink-0">
+                        <Pickaxe size={18} />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-white text-sm tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                          Mining & Mineral Resources
+                        </h4>
+                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                          Iron Ore, Coal, Manganese, Gold, Silver, Diamonds, Water Resources, and Strategic Minerals.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Highlight 2 */}
+                  <div className="bg-white/5 border border-white/10 hover:border-white/20 backdrop-blur-md p-4 rounded-xl transition-all duration-300">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-blue-500/15 rounded-lg text-blue-400 shrink-0">
+                        <Building2 size={18} />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-white text-sm tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                          Infrastructure & Real Estate
+                        </h4>
+                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                          Large-scale projects focused on growth, modernization, and structural engineering excellence.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Highlight 3 */}
+                  <div className="bg-white/5 border border-white/10 hover:border-white/20 backdrop-blur-md p-4 rounded-xl transition-all duration-300">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-blue-500/15 rounded-lg text-blue-400 shrink-0">
+                        <Factory size={18} />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-white text-sm tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                          Industrial Manufacturing
+                        </h4>
+                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                          State-of-the-art Mini Steel Plants and Direct Reduction (Sponge Iron) Production facilities.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Highlight 4 */}
+                  <div className="bg-white/5 border border-white/10 hover:border-white/20 backdrop-blur-md p-4 rounded-xl transition-all duration-300">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-blue-500/15 rounded-lg text-blue-400 shrink-0">
+                        <ShieldCheck size={18} />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-white text-sm tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                          Advanced Material Solutions
+                        </h4>
+                        <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                          Innovative Bulletproof Stone-to-Fabric Technology and specialized high-security products.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Premium Corporate Buttons */}
+                <div className="flex flex-wrap items-center gap-4">
                   <a 
                     href="#services"
                     onClick={handleScrollToServices}
-                    className="group px-8 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-[0_4px_14px_rgba(37,99,235,0.25)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.35)] rounded-lg inline-flex items-center justify-center gap-2.5 text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                    className="group px-8 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-[0_4px_14px_rgba(37,99,235,0.4)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.6)] rounded-full inline-flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.03] active:scale-[0.97]"
                   >
-                    Explore Our Sectors
+                    Explore Our Businesses
                     <ArrowUpRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
+
+                  <Link 
+                    to="/contact"
+                    className="group px-8 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold border border-white/20 hover:border-white/40 rounded-full inline-flex items-center justify-center gap-2 text-xs uppercase tracking-wider transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] backdrop-blur-sm"
+                  >
+                    Contact Us
+                    <ArrowUpRight size={14} className="opacity-70 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </Link>
                 </div>
               </FadeIn>
             </div>
 
-            {/* Right Column: 3D Interactive WebGL Globe (40% width, cropped outside) */}
-            <div className="absolute top-1/2 -translate-y-1/2 -right-[150px] md:-right-[200px] lg:-right-[220px] xl:-right-[250px] w-[420px] h-[420px] md:w-[600px] md:h-[600px] lg:w-[800px] lg:h-[800px] z-10 pointer-events-none md:pointer-events-auto select-none flex items-center justify-center">
+            {/* Desktop version: 3D Interactive WebGL Globe (40% width, cropped outside) */}
+            <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 -right-[150px] md:-right-[200px] lg:-right-[220px] xl:-right-[250px] w-[420px] h-[420px] md:w-[600px] md:h-[600px] lg:w-[800px] lg:h-[800px] z-10 pointer-events-none md:pointer-events-auto select-none items-center justify-center">
               <FadeIn delay={0.25} className="w-full h-full">
                 <div className="relative w-full h-full">
                   {/* Subtle vector connections surrounding the globe */}

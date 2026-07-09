@@ -33,10 +33,10 @@ export function Navbar() {
   // Floating pill layout styles matching the mobile layout screenshot
   const isTransparent = isHomePage && !isScrolled && !isMobileMenuOpen;
   
-  // Attached full-width liquid glass header styles
+  // Floating pill shape styles for both transparent and scrolled states
   const headerClasses = isTransparent
-    ? 'fixed top-0 left-0 right-0 w-full z-50 transition-all duration-500 bg-[#F5F7FA]/10 backdrop-blur-md text-slate-900 border-b border-slate-200/50 py-4 px-6 md:px-12 flex items-center justify-between'
-    : 'fixed top-0 left-0 right-0 w-full z-50 transition-all duration-500 bg-white/90 backdrop-blur-xl text-slate-900 border-b border-slate-200 shadow-sm py-3.5 px-6 md:px-12 flex items-center justify-between';
+    ? 'fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-7xl z-50 transition-all duration-300 bg-white/75 backdrop-blur-md text-slate-900 border border-slate-200/60 shadow-sm py-2 px-6 md:px-10 flex items-center justify-between rounded-full'
+    : 'fixed top-3 left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] max-w-[1240px] z-50 transition-all duration-300 bg-white/95 backdrop-blur-xl text-slate-900 border border-slate-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.06)] py-1.5 px-6 md:px-10 flex items-center justify-between rounded-full';
 
   const textColor = 'text-slate-900';
   const textColorDim = 'text-slate-600 hover:text-slate-900';
@@ -44,7 +44,7 @@ export function Navbar() {
   return (
     <>
       <header className={headerClasses}>
-        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+        <div className="w-full flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className={`flex items-center gap-1.5 ${textColor} transition-colors relative z-50`}>
             <div className="w-10 h-10 md:w-11 md:h-11 overflow-hidden shrink-0 relative flex items-center justify-center">
