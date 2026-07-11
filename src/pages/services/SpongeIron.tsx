@@ -1,25 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FadeIn } from '../../components/FadeIn';
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Maximize2, 
-  X, 
-  CheckCircle, 
-  Sparkles, 
-  MapPin, 
-  Flame, 
-  Activity, 
-  Settings, 
-  ShieldCheck, 
-  Phone, 
-  Mail, 
-  Globe,
-  Award,
-  Layers,
-  Zap
-} from 'lucide-react';
+import { Maximize2, X, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface IronIndustrySector {
@@ -41,6 +23,8 @@ export function SpongeIron() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const [activeImage, setActiveImage] = useState<{ url: string; title: string; desc: string } | null>(null);
 
   const sectors: IronIndustrySector[] = [
     {
@@ -122,421 +106,245 @@ export function SpongeIron() {
     }
   ];
 
-  // Independent active image indexes for both sectors
-  const [plantIdx, setPlantIdx] = useState(0);
-  const [miningIdx, setMiningIdx] = useState(0);
-
-  // Lightbox Modal States
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxSector, setLightboxSector] = useState<"mini-steel-plant" | "iron-ore-mining">("mini-steel-plant");
-  const [lightboxIndex, setLightboxIndex] = useState(0);
-
-  const getActiveIndex = (sectorId: string) => {
-    return sectorId === "mini-steel-plant" ? plantIdx : miningIdx;
-  };
-
-  const setActiveIndex = (sectorId: string, value: number) => {
-    if (sectorId === "mini-steel-plant") {
-      setPlantIdx(value);
-    } else {
-      setMiningIdx(value);
-    }
-  };
-
-  const nextImage = (sector: IronIndustrySector) => {
-    const current = getActiveIndex(sector.id);
-    const next = (current + 1) % sector.images.length;
-    setActiveIndex(sector.id, next);
-  };
-
-  const prevImage = (sector: IronIndustrySector) => {
-    const current = getActiveIndex(sector.id);
-    const prev = (current - 1 + sector.images.length) % sector.images.length;
-    setActiveIndex(sector.id, prev);
-  };
-
-  const openLightbox = (sectorId: "mini-steel-plant" | "iron-ore-mining", index: number) => {
-    setLightboxSector(sectorId);
-    setLightboxIndex(index);
-    setLightboxOpen(true);
-  };
-
-  const currentLightboxSector = sectors.find(s => s.id === lightboxSector) || sectors[0];
   const contactNumbers = ["+91 94817 56999", "+91 94413 53791", "+91 73867 34389"];
 
   return (
-    <div className="pt-32 pb-24 bg-white min-h-screen">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
+      <div className="w-full max-w-4xl mx-auto space-y-16">
         
-        {/* Main Hero Header */}
-        <FadeIn>
-          <div className="text-center max-w-4xl mx-auto mb-20">
-            <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-6">
-              <Flame size={14} className="animate-pulse text-primary" /> Metallurgical & Mining Division
-            </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-[#1a202c] mb-6 tracking-tight leading-none">
-              Sponge Iron & Iron Ore Mining
-            </h1>
-            <p className="text-gray-500 text-lg md:text-xl leading-relaxed font-light">
-              Harrsha Global excels in heavy industrial sector exploration, delivering high-purity Direct Reduced Iron (DRI) sponge from our Visakhapatnam plant alongside raw high-grade Fe Iron Ore mined from the legendary deposits of Ballari & Barbil.
+        {/* Simple, Bold, Elegant Editorial Statement */}
+        <FadeIn delay={0.1}>
+          <div className="space-y-4 text-center md:text-left">
+            <p className="text-xs font-bold tracking-[0.3em] text-slate-400 uppercase">
+              Harrsha Global
             </p>
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-950 uppercase leading-none">
+              Sponge Iron & <br />
+              Ore Mining
+            </h1>
+            <p className="text-slate-500 text-sm md:text-base font-normal max-w-xl leading-relaxed pt-2">
+              Advanced high-efficiency Direct Reduced Iron (DRI) processing at our Visakhapatnam steel plant paired with high-grade Fe iron ore operations.
+            </p>
+            <div className="w-16 h-[2px] bg-slate-900 mt-6 mx-auto md:mx-0" />
           </div>
         </FadeIn>
 
-        {/* Sectors Interactive Showcase */}
-        <div className="space-y-32">
-          {sectors.map((sector, sIdx) => {
-            const activeIdx = getActiveIndex(sector.id);
-            const isEven = sIdx % 2 === 0;
+        {/* Clean, Full-Width High-Contrast Image */}
+        <FadeIn delay={0.2} className="w-full">
+          <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden shadow-xl border border-slate-100 bg-slate-50">
+            <img 
+              src="https://vennky.sirv.com/iron%20spongs/WhatsApp%20Image%202026-07-03%20at%207.13.59%20PM.jpeg" 
+              alt="Harrsha Global Sponge Iron & Mining Infrastructure" 
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+        </FadeIn>
 
-            return (
-              <div 
-                key={sector.id} 
-                id={sector.id}
-                className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center"
-              >
-                {/* Left Side: Photo Slider / Gallery */}
-                <div className={`lg:col-span-7 space-y-4 ${!isEven ? 'lg:order-2' : ''}`}>
-                  <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 shadow-xl group">
-                    <AnimatePresence mode="wait">
-                      <motion.img
-                        key={activeIdx}
-                        src={sector.images[activeIdx].url}
-                        alt={sector.images[activeIdx].title}
-                        initial={{ opacity: 0, scale: 1.01 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.99 }}
-                        transition={{ duration: 0.3 }}
-                        className="w-full h-full object-cover cursor-zoom-in"
-                        onClick={() => openLightbox(sector.id as any, activeIdx)}
-                      />
-                    </AnimatePresence>
-
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent pointer-events-none" />
-
-                    {/* Navigation Arrows */}
-                    <button
-                      onClick={(e) => { e.stopPropagation(); prevImage(sector); }}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 hover:bg-white text-gray-900 flex items-center justify-center shadow-lg transition-transform hover:scale-105 cursor-pointer z-10"
-                    >
-                      <ChevronLeft size={22} />
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); nextImage(sector); }}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 hover:bg-white text-gray-900 flex items-center justify-center shadow-lg transition-transform hover:scale-105 cursor-pointer z-10"
-                    >
-                      <ChevronRight size={22} />
-                    </button>
-
-                    {/* Expand overlay button */}
-                    <button
-                      onClick={() => openLightbox(sector.id as any, activeIdx)}
-                      className="absolute top-4 right-4 bg-black/60 hover:bg-primary backdrop-blur-sm text-white p-3 rounded-full transition-all opacity-0 group-hover:opacity-100 shadow-md cursor-pointer z-10"
-                      title="Enlarge Industrial Image"
-                    >
-                      <Maximize2 size={18} />
-                    </button>
-
-                    {/* Metadata Overlay */}
-                    <div className="absolute bottom-6 left-6 right-6 text-white pointer-events-none z-10">
-                      <span className="text-xs bg-primary text-white px-3 py-1 rounded-full font-semibold tracking-wider mb-2 inline-block">
-                        {sector.images[activeIdx].title}
-                      </span>
-                      <p className="text-sm text-white/90 font-light">
-                        {sector.images[activeIdx].desc}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Thumbnail Row */}
-                  <div className={`grid gap-2 md:gap-3`} style={{ gridTemplateColumns: `repeat(${sector.images.length}, minmax(0, 1fr))` }}>
-                    {sector.images.map((img, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setActiveIndex(sector.id, idx)}
-                        className={`relative aspect-[4/3] rounded-2xl overflow-hidden border-2 transition-all cursor-pointer ${
-                          activeIdx === idx
-                            ? 'border-primary ring-4 ring-primary/20 scale-[0.98]'
-                            : 'border-transparent opacity-60 hover:opacity-100 hover:scale-[1.02]'
-                        }`}
-                      >
-                        <img src={img.url} alt={img.title} className="w-full h-full object-cover" />
-                      </button>
-                    ))}
-                  </div>
+        {/* Dynamic Industrial Divisions */}
+        {sectors.map((sector, idx) => (
+          <div key={sector.id} className="border-t border-slate-100 pt-16 space-y-10">
+            
+            {/* Header of Sector */}
+            <FadeIn delay={0.15}>
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div className="space-y-1">
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block flex items-center gap-1.5">
+                    <MapPin size={12} /> {sector.origin}
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight">
+                    {sector.name}
+                  </h2>
                 </div>
+                <div className="text-xs text-slate-400 font-mono tracking-wider">
+                  Location: {sector.locationDetails}
+                </div>
+              </div>
+            </FadeIn>
 
-                {/* Right Side: Information & Technical Specifications */}
-                <div className={`lg:col-span-5 space-y-6 ${!isEven ? 'lg:order-1' : ''}`}>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm font-semibold text-primary tracking-wide uppercase">
-                      <MapPin size={16} />
-                      <span>{sector.origin}</span>
-                    </div>
-                    <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight">
-                      {sector.name}
-                    </h2>
-                    <p className="text-xs text-gray-400 font-mono tracking-wider">
-                      Location: {sector.locationDetails}
-                    </p>
-                  </div>
-
-                  <p className="text-gray-500 text-base md:text-lg leading-relaxed font-light">
+            {/* Description & Technical Specs Grid */}
+            <FadeIn delay={0.2}>
+              <div className="grid md:grid-cols-12 gap-8 items-start">
+                <div className="md:col-span-7 space-y-6">
+                  <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
                     {sector.description}
                   </p>
-
-                  {/* Specs Grid */}
-                  <div className="grid grid-cols-2 gap-4 pt-4">
+                  
+                  {/* Bullet Highlights */}
+                  <ul className="space-y-3 pt-2 text-slate-600 text-sm">
+                    {sector.highlights.map((hl, hIdx) => (
+                      <li key={hIdx} className="flex gap-2.5 text-slate-600 text-xs sm:text-sm font-normal">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0 mt-2" />
+                        <span>{hl}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                {/* Tech Specs Block */}
+                <div className="md:col-span-5 bg-slate-50 border border-slate-100 p-6 rounded-2xl space-y-4">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block border-b border-slate-200 pb-2">
+                    Tested Industrial Specs
+                  </span>
+                  <div className="space-y-3">
                     {sector.specs.map((spec, sIdx) => (
-                      <div key={sIdx} className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
-                        <span className="text-xs text-gray-400 font-semibold uppercase block mb-1">
-                          {spec.label}
-                        </span>
-                        <span className="text-sm md:text-base font-bold text-gray-800">
-                          {spec.value}
-                        </span>
+                      <div key={sIdx} className="flex justify-between text-xs font-normal">
+                        <span className="text-slate-500 uppercase font-mono">{spec.label}</span>
+                        <span className="text-slate-950 font-bold">{spec.value}</span>
                       </div>
                     ))}
                   </div>
+                </div>
+              </div>
+            </FadeIn>
 
-                  {/* Highlights Checklist */}
-                  <div className="pt-4 space-y-3">
-                    {sector.highlights.map((highlight, hIdx) => (
-                      <div key={hIdx} className="flex items-center gap-2.5">
-                        <CheckCircle size={18} className="text-emerald-500 shrink-0" />
-                        <span className="text-sm font-medium text-gray-700">{highlight}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Direct Action contact */}
-                  <div className="pt-4">
-                    <Link
-                      to="/contact"
-                      className="inline-flex items-center justify-center bg-gray-900 hover:bg-primary text-white px-8 py-3.5 rounded-full font-semibold transition-all hover:shadow-lg text-sm"
+            {/* Images Grid Showcase - Direct display matching 'more images please' */}
+            <FadeIn delay={0.25}>
+              <div className="space-y-3">
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block">
+                  Industrial Processing Gallery (Click to Enlarge)
+                </span>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {sector.images.map((img, imgIdx) => (
+                    <div 
+                      key={imgIdx}
+                      onClick={() => setActiveImage(img)}
+                      className="group relative aspect-[4/3] rounded-xl overflow-hidden border border-slate-100 bg-slate-50 cursor-zoom-in shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300"
                     >
-                      Inquire About {sector.id === "mini-steel-plant" ? "Sponge Iron" : "Iron Ore Reserves"}
-                    </Link>
-                  </div>
+                      <img 
+                        src={img.url} 
+                        alt={img.title} 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                      />
+                      {/* Hover Overlay */}
+                      <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <Maximize2 size={16} className="text-white drop-shadow" />
+                      </div>
+                      
+                      {/* Micro info on bottom */}
+                      <div className="absolute bottom-2 left-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded text-[9px] font-bold text-slate-800 uppercase tracking-tight truncate border border-slate-100">
+                        {img.title}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </FadeIn>
 
-        {/* Quality, Machinery and Environmental Commitment */}
-        <div className="mt-32 pt-20 border-t border-gray-100">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
-              Industrial Engineering Excellence
-            </h2>
-            <p className="text-gray-500 text-lg font-light">
-              Harrsha Global implements advanced high-efficiency mineral sorting and thermal reduction processes across all mines and plants.
-            </p>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Activity,
-                title: "Advanced DRI Refining",
-                desc: "Harnessing highly optimized thermal-reduction processes to synthesize heavy sponge iron with high-purity yield and superb physical structure."
-              },
-              {
-                icon: Settings,
-                title: "Mobile Crushing & Dry Screening",
-                desc: "Using modern high-performance screen decks and crushing equipment in Ballari and Barbil mines to separate calibrated lump sizes."
-              },
-              {
-                icon: ShieldCheck,
-                title: "Quality & Compliance Assurance",
-                desc: "Comprehensive laboratories checking moisture content, Fe chemical grade homogeneity, mechanical loading rates, and regulatory green compliance."
-              }
-            ].map((item, idx) => (
-              <div key={idx} className="bg-gray-50/50 p-8 rounded-3xl border border-gray-100 hover:shadow-lg transition-all flex flex-col">
-                <div className="w-12 h-12 bg-primary/5 rounded-2xl flex items-center justify-center mb-6">
-                  <item.icon className="text-primary" size={24} />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed font-light">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
 
         {/* Global Logistics and Supply Desk Section */}
-        <div className="mt-32 bg-zinc-950 text-white rounded-3xl p-8 md:p-12 lg:p-16 relative overflow-hidden">
-          <div className="absolute -top-12 -right-12 h-64 w-64 rounded-full bg-zinc-800/20 blur-3xl" />
-          <div className="absolute -bottom-12 -left-12 h-64 w-64 rounded-full bg-orange-500/5 blur-3xl" />
-
-          <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-            
-            {/* Left Col Contact Text */}
-            <div className="space-y-6">
-              <span className="text-xs bg-zinc-800 text-zinc-300 px-3.5 py-1.5 rounded-full font-bold uppercase tracking-wider border border-zinc-700">
-                Industrial Supplies Desk
-              </span>
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">
-                Establish Your Supply Pipeline Today
-              </h2>
-              <p className="text-zinc-400 text-base md:text-lg font-light leading-relaxed">
-                Connect directly with our plant administrators and mineral logistics divisions in Anakapalli, Ballari, and Barbil. We coordinate swift rail-siding and seaport freight transit.
-              </p>
-
-              {/* Office Location Detail */}
-              <div className="flex items-start gap-3 bg-zinc-900/80 p-4 rounded-2xl border border-zinc-800">
-                <MapPin className="text-orange-500 shrink-0 mt-1" size={20} />
-                <div className="text-sm">
-                  <p className="font-bold text-zinc-100">Visakhapatnam Steel Division Location</p>
-                  <p className="text-zinc-400 font-light mt-0.5">
-                    Tallapalem, Undhandapuram, Anakapalli, Visakhapatnam District, Andhra Pradesh, India.
-                  </p>
+        <FadeIn delay={0.35}>
+          <div className="border-t border-slate-100 pt-16">
+            <div className="bg-slate-50 border border-slate-100 p-8 sm:p-12 rounded-2xl grid md:grid-cols-12 gap-8 items-start">
+              
+              <div className="md:col-span-7 space-y-4">
+                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 block">
+                  Corporate Supply Pipeline
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black text-slate-950 uppercase tracking-tight leading-none">
+                  Establish Your Supply Pipeline Today
+                </h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Connect directly with our plant administrators and mineral logistics divisions in Anakapalli, Ballari, and Barbil. We coordinate swift rail-siding and seaport freight transit.
+                </p>
+                <div className="pt-4">
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center justify-center px-8 py-3.5 bg-slate-950 hover:bg-slate-800 text-white font-bold rounded-xl text-xs sm:text-sm uppercase tracking-widest shadow-sm transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    Submit Supply Inquiry Form
+                  </Link>
                 </div>
               </div>
-            </div>
 
-            {/* Right Col Action Contact Info */}
-            <div className="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 space-y-6">
-              <h3 className="text-xl font-bold text-zinc-100 border-b border-zinc-800 pb-4">
-                Corporate Logistics & Desk
-              </h3>
-              
-              <div className="space-y-4">
-                
-                {/* Phones */}
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-zinc-800 rounded-xl flex items-center justify-center shrink-0">
-                    <Phone className="text-zinc-400" size={18} />
+              <div className="md:col-span-5 bg-white border border-slate-100 p-6 rounded-xl space-y-4 shadow-sm">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block border-b border-slate-100 pb-2">
+                  Direct Procurement desk
+                </span>
+                <div className="space-y-3 text-xs text-slate-600 font-mono">
+                  <div>
+                    <span className="text-[10px] text-slate-400 block uppercase">Contact Phones</span>
+                    {contactNumbers.map((num, idx) => (
+                      <p key={idx} className="text-slate-900 font-bold mt-0.5">{num}</p>
+                    ))}
                   </div>
                   <div>
-                    <span className="text-xs text-zinc-500 block uppercase font-semibold">Direct Desk Contacts</span>
-                    <div className="text-sm text-zinc-200 font-semibold space-y-1 mt-1">
-                      {contactNumbers.map((num, nI) => (
-                        <p key={nI}>{num}</p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Email */}
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-zinc-800 rounded-xl flex items-center justify-center shrink-0">
-                    <Mail className="text-zinc-400" size={18} />
-                  </div>
-                  <div>
-                    <span className="text-xs text-zinc-500 block uppercase font-semibold">Procurement Email</span>
-                    <a 
-                      href="mailto:Info@harrshaglobal.com" 
-                      className="text-sm text-zinc-200 font-semibold hover:text-white transition-colors mt-1 block"
-                    >
+                    <span className="text-[10px] text-slate-400 block uppercase">Email Address</span>
+                    <a href="mailto:Info@harrshaglobal.com" className="text-slate-900 font-bold hover:underline">
                       Info@harrshaglobal.com
                     </a>
                   </div>
                 </div>
-
-                {/* Web */}
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-zinc-800 rounded-xl flex items-center justify-center shrink-0">
-                    <Globe className="text-zinc-400" size={18} />
-                  </div>
-                  <div>
-                    <span className="text-xs text-zinc-500 block uppercase font-semibold">Official Domain</span>
-                    <a 
-                      href="https://www.harrshaglobal.com" 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-sm text-zinc-200 font-semibold hover:text-white transition-colors mt-1 block"
-                    >
-                      www.harrshaglobal.com
-                    </a>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Direct Inquiry button */}
-              <div className="pt-2">
-                <Link
-                  to="/contact"
-                  className="w-full bg-white hover:bg-zinc-200 text-zinc-950 py-3.5 rounded-full font-bold transition-all text-center text-sm flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  Submit Supply Inquiry Form
-                </Link>
               </div>
 
             </div>
-
           </div>
-        </div>
+        </FadeIn>
 
       </div>
 
       {/* Lightbox Modal */}
       <AnimatePresence>
-        {lightboxOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setLightboxOpen(false)}
-              className="fixed inset-0 bg-black/95 backdrop-blur-md"
-            />
-
-            {/* Container */}
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="relative max-w-5xl w-full max-h-[85vh] flex flex-col items-center justify-center z-50"
+        {activeImage && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-4xl bg-white rounded-2xl overflow-hidden shadow-2xl border border-slate-100"
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setLightboxOpen(false)}
-                className="absolute -top-12 right-0 bg-white/15 hover:bg-white/20 text-white p-2.5 rounded-full transition-colors cursor-pointer"
-                aria-label="Close Lightbox"
+              <button 
+                onClick={() => setActiveImage(null)}
+                className="absolute top-4 right-4 z-20 bg-slate-100/90 hover:bg-slate-950 hover:text-white text-slate-800 p-2.5 rounded-full transition-all duration-300 cursor-pointer shadow"
+                aria-label="Close image detail"
               >
-                <X size={24} />
+                <X size={16} />
               </button>
 
-              {/* Main Image View */}
-              <div className="relative w-full aspect-[4/3] md:aspect-video rounded-3xl overflow-hidden bg-gray-900 border border-white/10 shadow-2xl">
-                <img
-                  src={currentLightboxSector.images[lightboxIndex].url}
-                  alt={currentLightboxSector.images[lightboxIndex].title}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-
-              {/* Description Block */}
-              <div className="text-center mt-6 text-white max-w-2xl px-4 space-y-2">
-                <h3 className="text-xl font-bold text-white">
-                  {currentLightboxSector.images[lightboxIndex].title}
-                </h3>
-                <p className="text-sm text-white/75 font-light">
-                  {currentLightboxSector.images[lightboxIndex].desc}
-                </p>
-
-                {/* Dot Pagination inside Lightbox */}
-                <div className="flex justify-center gap-2.5 pt-4">
-                  {currentLightboxSector.images.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setLightboxIndex(idx)}
-                      className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
-                        lightboxIndex === idx ? 'bg-primary w-6' : 'bg-white/30 hover:bg-white/60'
-                      }`}
-                    />
-                  ))}
+              <div className="flex flex-col md:flex-row">
+                <div className="w-full md:w-2/3 bg-slate-100 aspect-[4/3] md:aspect-auto md:min-h-[400px] relative">
+                  <img 
+                    src={activeImage.url} 
+                    alt={activeImage.title} 
+                    className="absolute inset-0 w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                
+                <div className="w-full md:w-1/3 p-8 flex flex-col justify-between bg-white">
+                  <div className="space-y-4">
+                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block">
+                      Harrsha Global Metallurgy
+                    </span>
+                    <h4 className="text-lg font-black text-slate-950 uppercase tracking-tight">
+                      {activeImage.title}
+                    </h4>
+                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                      {activeImage.desc}
+                    </p>
+                  </div>
+                  
+                  <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-[9px] font-bold text-slate-400 tracking-widest font-mono">
+                      SECURED SUPPLY
+                    </span>
+                    <button 
+                      onClick={() => setActiveImage(null)}
+                      className="text-xs font-bold text-slate-950 hover:underline"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
-
     </div>
   );
 }
