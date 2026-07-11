@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FadeIn } from '../../components/FadeIn';
 import { 
@@ -33,6 +33,7 @@ export function RealEstate() {
   }, []);
 
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [activeTab, setActiveTab] = useState<'all' | 'infrastructure' | 'realestate'>('all');
 
   const projects: ProjectItem[] = [
     {
@@ -41,7 +42,7 @@ export function RealEstate() {
       type: "infrastructure",
       tag: "Heavy Civil Engineering",
       desc: "Constructing massive structural foundations, rotary kiln supports, raw storage bays, and material handling grids for heavy industrial operations.",
-      image: "https://vennky.sirv.com/iron%20spongs/WhatsApp%20Image%202026-07-03%20at%207.13.59%20PM.jpeg", // Sponge iron kiln!
+      image: "https://vennky.sirv.com/iron%20spongs/WhatsApp%20Image%202026-07-03%20at%207.13.59%20PM.jpeg",
       location: "Anakapalli Industrial Hub",
       specs: [
         "High-Temperature Rotary Kiln Foundations",
@@ -62,7 +63,7 @@ export function RealEstate() {
       type: "infrastructure",
       tag: "Industrial Logistics",
       desc: "Constructing high-volume railway loading stations, hopper grids, and transit depots to ensure frictionless bulk mineral dispatch.",
-      image: "https://vennky.sirv.com/iron%20spongs/ballari/WhatsApp%20Image%202026-07-03%20at%207.14.00%20PM.jpeg", // Sponge iron cargo loading!
+      image: "https://vennky.sirv.com/iron%20spongs/ballari/WhatsApp%20Image%202026-07-03%20at%207.14.00%20PM.jpeg",
       location: "Ballari & Odisha Rail Terminals",
       specs: [
         "High-Capacity Bulk Cargo Hoppers",
@@ -205,307 +206,303 @@ export function RealEstate() {
     }
   ];
 
-  const infraProjects = projects.filter(p => p.type === 'infrastructure');
-  const realEstateProjects = projects.filter(p => p.type === 'realestate');
+  const filteredProjects = activeTab === 'all' 
+    ? projects 
+    : projects.filter(p => p.type === activeTab);
 
   const reasons = [
     {
-      title: "Trusted Global Quality",
-      desc: "We apply global engineering and safety standards across our industrial and real estate footprints."
+      title: "Engineered for Generations",
+      desc: "We build all structures with high-grade premium materials to meet global civil and industrial tolerance thresholds."
     },
     {
-      title: "100% Legal Clearance",
-      desc: "Absolute zero-compromise regulatory approach. Every layout carries authentic DTCP, VUDA, and local approval credentials."
+      title: "Absolute Title Clarity",
+      desc: "Complete regulatory compliance. Every square foot carries clean titles and verified DTCP/VUDA approvals."
     },
     {
-      title: "Eco-Conscious Greenery",
-      desc: "We focus on rainwater harvesting, extensive green belts, and low-carbon construction methods."
+      title: "Green Infrastructure",
+      desc: "Integrated water harvesting grids, landscaped buffers, solar-ready avenues, and advanced sustainable construction."
     },
     {
-      title: "Strategic Landholding",
-      desc: "Our projects sit directly within high-growth industrial, residential, and logistics corridors for maximum yield."
+      title: "Strategic Growth Locations",
+      desc: "Developments strategically positioned in booming high-tech zones, commercial routes, and heavy transit corridors."
     }
   ];
 
   return (
-    <div className="pt-32 pb-24 bg-zinc-950 text-white min-h-screen selection:bg-primary selection:text-white">
-      <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
+    <div className="bg-white text-slate-900 min-h-screen selection:bg-blue-600 selection:text-white">
+      
+      {/* Premium Elegant Header Banner */}
+      <section className="relative pt-36 pb-20 md:pb-28 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-white">
+        {/* Soft decorative blur backgrounds */}
+        <div className="absolute right-0 top-0 w-[400px] h-[400px] bg-blue-100/30 rounded-full blur-[120px] pointer-events-none z-0" />
+        <div className="absolute left-[-100px] bottom-0 w-[350px] h-[350px] bg-indigo-50/40 rounded-full blur-[100px] pointer-events-none z-0" />
         
-        {/* Main Header */}
-        <FadeIn>
-          <div className="text-center max-w-4xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-6 border border-primary/20">
-              <Building2 size={14} className="animate-pulse" /> Engineering Legacies
-            </span>
-            <h1 className="text-4xl md:text-6xl font-semibold tracking-tight mb-6">
-              Real Estate & Infrastructure
-            </h1>
-            <p className="text-xs md:text-sm text-zinc-400 font-mono tracking-widest uppercase mb-6">
-              HEAVY INFRASTRUCTURE • LAND ACQUISITION • COMPLETED VENTURES
-            </p>
-            <p className="text-zinc-400 text-base md:text-lg leading-relaxed font-light">
-              Harrshaglobal Pvt Ltd is a premier developer of heavy civil infrastructure, logistics hubs, industrial plant layouts, and premium residential gated communities. We blend structural steel integrity with clean environmental master planning.
-            </p>
-          </div>
-        </FadeIn>
-
-        {/* SECTION 1: Heavy Industrial & Logistics Infrastructure */}
-        <div className="mb-24">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <FadeIn>
-            <div className="border-l-4 border-primary pl-4 mb-10">
-              <span className="text-xs font-mono tracking-widest uppercase text-primary font-bold block mb-1">
-                DIVISION I
+            <div className="text-left max-w-4xl space-y-6">
+              <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border border-blue-100">
+                <Building2 size={13} /> Global Developments
               </span>
-              <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                <HardHat className="text-primary" size={24} /> Heavy Civil & Industrial Infrastructure
-              </h2>
-              <p className="text-zinc-400 text-sm mt-1 max-w-3xl font-light">
-                Engineering deep foundations, automated siding stations, transit silos, and heavy dynamic concrete structures optimized for continuous heavy-duty industrial operations.
+              
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-950 tracking-tight leading-[1.1]">
+                Real Estate & <br />
+                <span className="text-blue-600">Infrastructure Excellence</span>
+              </h1>
+              
+              <div className="w-12 h-1 bg-blue-600 rounded-full mt-4" />
+              
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed font-normal max-w-3xl pt-2">
+                Harrsha Global Pvt. Ltd. delivers state-of-the-art heavy industrial civil infrastructure, high-efficiency logistics sidings, solar parks, and premium residential layouts. We blend physical structural engineering with clear legal compliance and master-planned execution.
               </p>
             </div>
           </FadeIn>
+        </div>
+      </section>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {infraProjects.map((project) => (
-              <div
-                key={project.id}
-                className="group relative flex flex-col bg-zinc-900 border border-zinc-800/80 rounded-3xl overflow-hidden shadow-lg hover:border-white/25 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500"
-              >
-                {/* Image Wrap */}
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-90" />
-                  
-                  {/* Badge */}
-                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary text-white">
-                    Heavy Civil
-                  </span>
-
-                  {/* Location label */}
-                  <div className="absolute bottom-4 left-4 flex items-center gap-1.5 text-xs text-zinc-300 font-medium">
-                    <MapPin size={12} className="text-primary" />
-                    <span>{project.location}</span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 flex flex-col flex-grow justify-between">
-                  <div>
-                    <span className="text-[10px] text-zinc-500 font-mono tracking-widest block mb-2 uppercase">
-                      {project.tag}
-                    </span>
-                    <h3 className="text-lg font-semibold mb-3 text-white tracking-tight leading-snug group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-zinc-400 text-xs font-light leading-relaxed mb-6 line-clamp-3">
-                      {project.desc}
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() => setSelectedProject(project)}
-                    className="flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:text-white transition-colors uppercase tracking-widest mt-auto cursor-pointer"
-                  >
-                    Specifications <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </div>
-            ))}
+      {/* Interactive Tabs / Filter Selector */}
+      <section className="sticky top-[80px] md:top-[88px] z-30 bg-white/95 backdrop-blur-md border-y border-slate-100 py-4 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveTab('all')}
+              className={`px-5 py-2 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-all uppercase ${
+                activeTab === 'all' 
+                  ? 'bg-slate-950 text-white shadow-sm' 
+                  : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+              }`}
+            >
+              All Ventures
+            </button>
+            <button
+              onClick={() => setActiveTab('infrastructure')}
+              className={`px-5 py-2 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-all uppercase flex items-center gap-1.5 ${
+                activeTab === 'infrastructure' 
+                  ? 'bg-blue-600 text-white shadow-sm' 
+                  : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+              }`}
+            >
+              <HardHat size={14} /> Heavy Infrastructure
+            </button>
+            <button
+              onClick={() => setActiveTab('realestate')}
+              className={`px-5 py-2 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-all uppercase flex items-center gap-1.5 ${
+                activeTab === 'realestate' 
+                  ? 'bg-blue-600 text-white shadow-sm' 
+                  : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-950'
+              }`}
+            >
+              <Home size={14} /> Premium Real Estate
+            </button>
+          </div>
+          
+          <div className="text-xs font-semibold text-slate-400 tracking-wider uppercase font-mono hidden md:block">
+            {filteredProjects.length} Verified Solutions Displayed
           </div>
         </div>
+      </section>
 
-        {/* SECTION 2: Premium Residential & Gated Developments */}
-        <div className="mb-24">
-          <FadeIn>
-            <div className="border-l-4 border-emerald-500 pl-4 mb-10">
-              <span className="text-xs font-mono tracking-widest uppercase text-emerald-500 font-bold block mb-1">
-                DIVISION II
-              </span>
-              <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                <Home className="text-emerald-500" size={24} /> Premium Real Estate & Gated Enclaves
-              </h2>
-              <p className="text-zinc-400 text-sm mt-1 max-w-3xl font-light">
-                Delivering highly appreciated, legally approved DTCP and VUDA developments featuring lush green belts, wide blacktop roadways, underground electrical feeds, and custom layouts.
-              </p>
-            </div>
-          </FadeIn>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {realEstateProjects.map((project) => (
-              <div
-                key={project.id}
-                className="group relative flex flex-col bg-zinc-900 border border-zinc-800/80 rounded-3xl overflow-hidden shadow-lg hover:border-white/25 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500"
-              >
-                {/* Image Wrap */}
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-90" />
-                  
-                  {/* Badge */}
-                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-600 text-white">
-                    Premium Layout
-                  </span>
-
-                  {/* Location label */}
-                  <div className="absolute bottom-4 left-4 flex items-center gap-1.5 text-xs text-zinc-300 font-medium">
-                    <MapPin size={12} className="text-emerald-500" />
-                    <span>{project.location}</span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 flex flex-col flex-grow justify-between">
-                  <div>
-                    <span className="text-[10px] text-zinc-500 font-mono tracking-widest block mb-2 uppercase">
-                      {project.tag}
+      {/* Main Portfolio Grid */}
+      <section className="py-16 md:py-24 bg-slate-50/50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project, idx) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, delay: idx * 0.05 }}
+                  className="group bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-200/50 transition-all duration-500 flex flex-col justify-between"
+                >
+                  {/* Photo Wrapper */}
+                  <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    {/* Visual Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80" />
+                    
+                    {/* Top Right Badges */}
+                    <span className={`absolute top-4 left-4 px-3 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider text-white shadow-sm ${
+                      project.type === 'infrastructure' ? 'bg-blue-600' : 'bg-emerald-600'
+                    }`}>
+                      {project.type === 'infrastructure' ? 'Infrastructure' : 'Premium Space'}
                     </span>
-                    <h3 className="text-lg font-semibold mb-3 text-white tracking-tight leading-snug group-hover:text-emerald-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-zinc-400 text-xs font-light leading-relaxed mb-6 line-clamp-3">
-                      {project.desc}
-                    </p>
+
+                    {/* Geolocation Tag */}
+                    <div className="absolute bottom-4 left-4 flex items-center gap-1.5 text-xs text-white font-medium drop-shadow-md">
+                      <MapPin size={12} className="text-blue-400 fill-blue-400/10" />
+                      <span>{project.location}</span>
+                    </div>
                   </div>
 
-                  <button
-                    onClick={() => setSelectedProject(project)}
-                    className="flex items-center gap-1.5 text-xs font-semibold text-emerald-400 group-hover:text-white transition-colors uppercase tracking-widest mt-auto cursor-pointer"
-                  >
-                    Specifications <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+                  {/* Content Information */}
+                  <div className="p-6 flex flex-col flex-grow justify-between space-y-4">
+                    <div>
+                      <span className="text-[10px] text-blue-600 font-bold uppercase tracking-wider block mb-1">
+                        {project.tag}
+                      </span>
+                      <h3 className="text-lg font-bold text-slate-900 tracking-tight leading-snug group-hover:text-blue-600 transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-slate-600 text-xs font-normal leading-relaxed mt-2 line-clamp-3">
+                        {project.desc}
+                      </p>
+                    </div>
 
-        {/* Why Choose Us Section */}
-        <div className="bg-zinc-900 rounded-3xl border border-zinc-800/80 p-8 md:p-16 mb-24">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-flex items-center gap-1 bg-primary/10 text-primary px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-primary/20">
-              <Sparkles size={12} /> Strategic Advantage
+                    <button
+                      onClick={() => setSelectedProject(project)}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-widest pt-2 cursor-pointer w-full text-left"
+                    >
+                      Specifications <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Premium Strategic Advantage Section */}
+      <section className="py-20 md:py-28 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-600 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-blue-100">
+              <Sparkles size={12} /> Master Planning
             </span>
-            <h2 className="text-3xl font-semibold tracking-tight text-white">
-              Why Partner with Harrshaglobal?
+            <h2 className="text-3xl md:text-4xl font-black text-slate-950 tracking-tight">
+              Why Partner With Harrsha Global?
             </h2>
-            <p className="text-zinc-400 text-sm md:text-base font-light leading-relaxed mt-3">
-              We engineer structures that last generations, combining strict legal transparency with robust construction.
+            <div className="w-10 h-[3px] bg-blue-600 mx-auto rounded-full" />
+            <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+              We engineer layouts and physical installations to high industry benchmarks, matching premium specifications with complete transparency.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {reasons.map((reason, idx) => (
-              <div key={idx} className="bg-zinc-950 p-6 rounded-2xl border border-zinc-800/60 hover:border-zinc-700 transition-colors flex flex-col">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 border border-primary/20">
-                  <Award size={18} />
+              <div 
+                key={idx} 
+                className="bg-slate-50/50 p-8 rounded-3xl border border-slate-100 hover:border-blue-100 hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 border border-blue-100">
+                    <Award size={18} />
+                  </div>
+                  <h4 className="text-lg font-bold text-slate-950 mb-2 tracking-tight">
+                    {reason.title}
+                  </h4>
+                  <p className="text-slate-600 text-xs sm:text-sm font-normal leading-relaxed">
+                    {reason.desc}
+                  </p>
                 </div>
-                <h4 className="text-base font-medium text-white mb-2 tracking-tight">
-                  {reason.title}
-                </h4>
-                <p className="text-zinc-400 text-xs font-light leading-relaxed">
-                  {reason.desc}
-                </p>
               </div>
             ))}
           </div>
+
         </div>
+      </section>
 
-        {/* Dynamic CTA Block */}
-        <div className="relative rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-800 p-12 lg:p-20 text-center">
-          <div className="absolute inset-0 opacity-10">
-            <img 
-              src="https://vennky.sirv.com/iron%20spongs/ballari/Don't%20Just%20List%20It_%20Visualize%20It_.jpg" 
-              alt="Harrshaglobal Infrastructure Background" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="relative z-10 max-w-3xl mx-auto space-y-6">
-            <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-white">
-              Let's Develop Your Next Venture
-            </h2>
-            <p className="text-zinc-400 text-base font-light leading-relaxed">
-              Connect with our master planning and heavy engineering desks to secure DTCP/VUDA approved layouts, solar grids, transit siding, or mini steel foundations.
-            </p>
-            <div className="pt-4">
-              <Link 
-                to="/contact" 
-                className="px-8 py-3.5 bg-white hover:bg-zinc-200 text-zinc-950 font-bold transition-all hover:scale-105 rounded-full inline-flex items-center gap-2 shadow-xl text-xs uppercase tracking-wider"
-              >
-                Consult Our Engineering Desk
-              </Link>
-            </div>
+      {/* Clean Call To Action Section */}
+      <section className="relative py-20 bg-slate-950 text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-15 mix-blend-overlay">
+          <img 
+            src="https://vennky.sirv.com/iron%20spongs/ballari/Don't%20Just%20List%20It_%20Visualize%20It_.jpg" 
+            alt="Harrshaglobal Infrastructure Background" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
+        {/* Soft atmospheric blue glow */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-6">
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight leading-tight">
+            Ready to Develop Your Next Venture?
+          </h2>
+          <p className="text-slate-300 text-sm md:text-base max-w-2xl mx-auto font-normal leading-relaxed">
+            Consult our dedicated master planning and heavy engineering desks to discuss custom layouts, DTCP/VUDA certifications, bulk transit siding, or heavy-duty civil works.
+          </p>
+          <div className="pt-4">
+            <Link 
+              to="/contact" 
+              className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] rounded-xl inline-flex items-center gap-2 shadow-lg shadow-blue-950/40 text-xs sm:text-sm uppercase tracking-wider"
+            >
+              Consult Our Engineering Desk
+              <ArrowRight size={14} />
+            </Link>
           </div>
         </div>
+      </section>
 
-      </div>
-
-      {/* Project Specifications Lightbox Modal */}
+      {/* Elegant Light Specifications Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-5xl bg-zinc-900 rounded-3xl border border-zinc-800 overflow-hidden shadow-2xl max-h-[90vh] flex flex-col md:flex-row"
+              className="relative w-full max-w-5xl bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-2xl max-h-[90vh] flex flex-col md:flex-row"
             >
               {/* Close Button */}
               <button 
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 z-20 bg-black/60 hover:bg-white hover:text-black transition-colors p-2 rounded-full cursor-pointer text-white"
+                className="absolute top-4 right-4 z-20 bg-slate-100/80 hover:bg-slate-900 hover:text-white text-slate-700 transition-colors p-2.5 rounded-full cursor-pointer shadow-sm"
                 title="Close specifications"
               >
-                <X size={18} />
+                <X size={16} />
               </button>
 
-              {/* Left Side: Dynamic Image */}
-              <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[500px]">
+              {/* Left Column: Visual Area */}
+              <div className="w-full md:w-1/2 relative min-h-[250px] md:min-h-[500px] bg-slate-100">
                 <img 
                   src={selectedProject.image} 
                   alt={selectedProject.title} 
                   className="absolute inset-0 w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 
-                <div className="absolute bottom-8 left-8 right-8">
-                  <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                    selectedProject.type === 'infrastructure' 
-                      ? 'bg-primary text-white' 
-                      : 'bg-emerald-600 text-white'
+                <div className="absolute bottom-8 left-8 right-8 text-white">
+                  <span className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider text-white shadow-md ${
+                    selectedProject.type === 'infrastructure' ? 'bg-blue-600' : 'bg-emerald-600'
                   }`}>
-                    {selectedProject.type === 'infrastructure' ? 'Infrastructure' : 'Real Estate'}
+                    {selectedProject.type === 'infrastructure' ? 'Heavy Civil' : 'Premium Space'}
                   </span>
-                  <h3 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mt-3 leading-snug">
+                  <h3 className="text-2xl md:text-3xl font-black tracking-tight mt-3 leading-tight drop-shadow-sm text-white">
                     {selectedProject.title}
                   </h3>
-                  <p className="text-zinc-300 text-xs flex items-center gap-1.5 mt-2 font-medium">
-                    <MapPin size={12} className="text-primary" />
+                  <p className="text-slate-200 text-xs flex items-center gap-1.5 mt-2 font-semibold">
+                    <MapPin size={12} className="text-blue-400" />
                     {selectedProject.location}
                   </p>
                 </div>
               </div>
 
-              {/* Right Side: Specifications */}
-              <div className="w-full md:w-1/2 p-8 lg:p-12 overflow-y-auto flex flex-col justify-between">
+              {/* Right Column: Specification Highlights Details */}
+              <div className="w-full md:w-1/2 p-8 lg:p-12 overflow-y-auto flex flex-col justify-between bg-white">
                 <div>
-                  <span className="text-[10px] text-zinc-500 font-mono tracking-widest uppercase block mb-3">
-                    {selectedProject.tag || 'Harrshaglobal Certified Venture'}
+                  <span className="text-[10px] text-blue-600 font-bold tracking-widest uppercase block mb-2">
+                    {selectedProject.tag || 'HARRSHAGLOBAL CERTIFIED'}
                   </span>
-                  <h4 className="text-zinc-100 text-sm font-semibold mb-4 uppercase tracking-wider border-b border-zinc-800 pb-2">
+                  
+                  <h4 className="text-slate-950 text-sm font-black mb-4 uppercase tracking-wider border-b border-slate-100 pb-2">
                     Project Specifications
                   </h4>
                   <ul className="space-y-3 mb-8">
                     {selectedProject.specs.map((spec, i) => (
-                      <li key={i} className="flex gap-2.5 text-zinc-300 text-sm font-light leading-relaxed">
-                        <span className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
+                      <li key={i} className="flex gap-2.5 text-slate-700 text-sm font-normal leading-relaxed">
+                        <span className="w-5 h-5 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold border border-blue-100">
                           ✓
                         </span>
                         <span>{spec}</span>
@@ -513,27 +510,27 @@ export function RealEstate() {
                     ))}
                   </ul>
 
-                  <h4 className="text-zinc-100 text-sm font-semibold mb-4 uppercase tracking-wider border-b border-zinc-800 pb-2">
+                  <h4 className="text-slate-950 text-sm font-black mb-4 uppercase tracking-wider border-b border-slate-100 pb-2">
                     Key Highlights & Advantages
                   </h4>
                   <ul className="space-y-3">
                     {selectedProject.highlights.map((hl, i) => (
-                      <li key={i} className="flex gap-2.5 text-zinc-300 text-sm font-light leading-relaxed">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 mt-2" />
+                      <li key={i} className="flex gap-2.5 text-slate-700 text-xs sm:text-sm font-normal leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-2" />
                         <span>{hl}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="pt-8 mt-8 border-t border-zinc-800 flex flex-wrap gap-4 items-center justify-between">
-                  <div className="text-xs text-zinc-500 font-mono">
-                    HARRSHAGLOBAL GROUP
+                <div className="pt-8 mt-8 border-t border-slate-100 flex flex-wrap gap-4 items-center justify-between">
+                  <div className="text-[10px] text-slate-400 font-bold tracking-widest uppercase font-mono">
+                    HARRSHAGLOBAL DEVELOPMENTS
                   </div>
                   <Link
                     to="/contact"
                     onClick={() => setSelectedProject(null)}
-                    className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-full font-semibold transition-colors text-xs uppercase tracking-wider flex items-center gap-1"
+                    className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all text-xs uppercase tracking-wider flex items-center gap-1"
                   >
                     Inquire Details <ArrowRight size={14} />
                   </Link>
