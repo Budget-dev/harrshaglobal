@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FadeIn } from '../../components/FadeIn';
+import { SEO } from '../../components/SEO';
 import { Maximize2, X, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -99,8 +100,14 @@ export function MinesMinerals() {
   ];
 
   return (
-    <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
-      <div className="w-full max-w-4xl mx-auto space-y-16">
+    <>
+      <SEO 
+        title="Mines & Mineral Processing"
+        description="High-volume mineral excavation, dry screening, iron ore lumps, and non-coking coal by Harrsha Global. Reliable supply for metallurgical operations."
+        url="/services/mines-minerals"
+      />
+      <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
+        <div className="w-full max-w-4xl mx-auto space-y-16">
         
         {/* Simple, Bold, Elegant Editorial Statement */}
         <FadeIn delay={0.1}>
@@ -361,5 +368,6 @@ export function MinesMinerals() {
         )}
       </AnimatePresence>
     </div>
+    </>
   );
 }

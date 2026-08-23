@@ -1,10 +1,17 @@
 import { FadeIn } from '../../components/FadeIn';
 import { Link } from 'react-router-dom';
 import { Shield, ChevronRight } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 export function BulletproofSheet() {
   return (
-    <div className="pt-32 pb-24 bg-background min-h-screen">
+    <>
+      <SEO 
+        title="Bulletproof Sheet Manufacturing"
+        description="High-security bulletproof sheets, polycarbonate panels, and ballistic-grade composites manufactured by Harrsha Global for defense and infrastructure."
+        url="/services/bulletproof-sheet-manufacturing"
+      />
+      <div className="pt-32 pb-24 bg-background min-h-screen">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <FadeIn>
           <div className="aspect-[21/9] w-full overflow-hidden mb-16 rounded-2xl">
@@ -87,5 +94,6 @@ export function BulletproofSheet() {
         </FadeIn>
       </div>
     </div>
+    </>
   );
 }

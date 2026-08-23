@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FadeIn } from '../../components/FadeIn';
+import { SEO } from '../../components/SEO';
 import { 
   ArrowRight, 
   X, 
@@ -127,8 +128,14 @@ export function Granite() {
   ];
 
   return (
-    <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
-      <div className="w-full max-w-4xl mx-auto space-y-16">
+    <>
+      <SEO 
+        title="Premium Natural Granite Sourcing"
+        description="Premium natural granite sourcing by Harrsha Global, including Black Galaxy and SK Blue. Quarry-direct procurement, block cutting, and international export."
+        url="/services/granite"
+      />
+      <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
+        <div className="w-full max-w-4xl mx-auto space-y-16">
         
         {/* Simple, Bold, Elegant Editorial Statement */}
         <FadeIn delay={0.1}>
@@ -358,5 +365,6 @@ export function Granite() {
         )}
       </AnimatePresence>
     </div>
+    </>
   );
 }

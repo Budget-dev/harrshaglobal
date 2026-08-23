@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { FadeIn } from '../components/FadeIn';
+import { SEO } from '../components/SEO';
 import { 
   Calendar, 
   User, 
@@ -193,8 +194,14 @@ export function Blog() {
   };
 
   return (
-    <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
-      <div className="w-full max-w-6xl mx-auto space-y-16">
+    <>
+      <SEO 
+        title="Industrial News & Technical Reports"
+        description="In-depth research and updates covering sustainable metallurgy, high-yield mining geology, premium stone craft, polymer engineering, and real estate layout strategies by Harrsha Global."
+        url="/blog"
+      />
+      <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
+        <div className="w-full max-w-6xl mx-auto space-y-16">
         
         {/* Simple, Bold, Elegant Editorial Statement */}
         <FadeIn delay={0.1}>
@@ -565,5 +572,6 @@ export function Blog() {
         )}
       </AnimatePresence>
     </div>
+    </>
   );
 }

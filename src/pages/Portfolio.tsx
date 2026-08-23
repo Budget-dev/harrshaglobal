@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { FadeIn } from '../components/FadeIn';
+import { SEO } from '../components/SEO';
 import { ArrowUpRight, Grid, Layers, HardHat, Building, X, MapPin, Layers3, Calendar, CheckCircle } from 'lucide-react';
 
 interface Project {
@@ -249,8 +250,14 @@ export function Portfolio() {
     : projects.filter(p => p.category === activeCategory);
 
   return (
-    <div className="pt-32 pb-24 min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <>
+      <SEO 
+        title="Corporate Portfolio & Projects"
+        description="Explore Harrsha Global's core corporate projects across advanced polycarbonate manufacturing, mining, sponge iron, real estate, and natural stone extraction."
+        url="/portfolio"
+      />
+      <div className="pt-32 pb-24 min-h-screen bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Page Header */}
         <FadeIn>
@@ -480,5 +487,6 @@ export function Portfolio() {
 
       </div>
     </div>
+    </>
   );
 }

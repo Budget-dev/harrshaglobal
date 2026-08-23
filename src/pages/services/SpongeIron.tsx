@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FadeIn } from '../../components/FadeIn';
+import { SEO } from '../../components/SEO';
 import { Maximize2, X, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -109,8 +110,14 @@ export function SpongeIron() {
   const contactNumbers = ["+91 94817 56999", "+91 94413 53791", "+91 73867 34389"];
 
   return (
-    <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
-      <div className="w-full max-w-4xl mx-auto space-y-16">
+    <>
+      <SEO 
+        title="Sponge Iron & Ore Mining"
+        description="State-of-the-art mini steel plant specializing in premium-grade Sponge Iron (DRI) and high-yield iron ore operations across India's mineral-rich zones."
+        url="/services/sponge-iron"
+      />
+      <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
+        <div className="w-full max-w-4xl mx-auto space-y-16">
         
         {/* Simple, Bold, Elegant Editorial Statement */}
         <FadeIn delay={0.1}>
@@ -346,5 +353,6 @@ export function SpongeIron() {
         )}
       </AnimatePresence>
     </div>
+    </>
   );
 }

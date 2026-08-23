@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FadeIn } from '../../components/FadeIn';
+import { SEO } from '../../components/SEO';
 
 export function RealEstate() {
   useEffect(() => {
@@ -8,8 +9,14 @@ export function RealEstate() {
   }, []);
 
   return (
-    <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
-      <div className="w-full max-w-4xl mx-auto space-y-16">
+    <>
+      <SEO 
+        title="Real Estate & Infrastructure Development"
+        description="Premium residential layouts, gated communities, and self-sufficient smart townships by Harrsha Global. DTCP & VUDA approved construction."
+        url="/services/real-estate-infrastructure"
+      />
+      <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
+        <div className="w-full max-w-4xl mx-auto space-y-16">
         
         {/* Simple, Bold, Elegant Editorial Statement */}
         <FadeIn delay={0.1}>
@@ -141,5 +148,6 @@ export function RealEstate() {
 
       </div>
     </div>
+    </>
   );
 }

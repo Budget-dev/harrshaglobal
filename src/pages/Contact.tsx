@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { FadeIn } from '../components/FadeIn';
 import { User, Mail, ArrowRight } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export function Contact() {
   useEffect(() => {
@@ -8,23 +9,29 @@ export function Contact() {
   }, []);
 
   return (
-    <div className="pt-32 pb-24 min-h-screen bg-white">
-      <div className="max-w-2xl mx-auto px-6 lg:px-8">
-        <FadeIn>
-          <div className="text-center mb-12 flex flex-col items-center">
-            <span className="inline-block bg-[#E5E9FF] text-[#6b66ff] px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-              Contact Us
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-[#1a202c] mb-4 tracking-tight">
-              Let's Get In Touch.
-            </h1>
-            <p className="text-gray-500 text-lg">
-              Or just reach out manually to us at{' '}
-              <a href="mailto:Info@harrshaglobal.com" className="text-[#6b66ff] hover:underline">
-                Info@harrshaglobal.com
-              </a>
-            </p>
-          </div>
+    <>
+      <SEO 
+        title="Contact Us | General Inquiry & Sourcing"
+        description="Get in touch with Harrsha Global for business inquiries, bulk raw material sourcing, and infrastructure partnerships in India."
+        url="/contact"
+      />
+      <div className="pt-32 pb-24 min-h-screen bg-white">
+        <div className="max-w-2xl mx-auto px-6 lg:px-8">
+          <FadeIn>
+            <div className="text-center mb-12 flex flex-col items-center">
+              <span className="inline-block bg-[#E5E9FF] text-[#6b66ff] px-4 py-1.5 rounded-full text-sm font-medium mb-6">
+                Contact Us
+              </span>
+              <h1 className="text-4xl md:text-5xl font-bold text-[#1a202c] mb-4 tracking-tight">
+                Let's Get In Touch.
+              </h1>
+              <p className="text-gray-500 text-lg">
+                Or just reach out manually to us at{' '}
+                <a href="mailto:Info@harrshaglobal.com" className="text-[#6b66ff] hover:underline">
+                  Info@harrshaglobal.com
+                </a>
+              </p>
+            </div>
 
           <form className="space-y-6 max-w-[500px] mx-auto" onSubmit={(e) => e.preventDefault()}>
             <div className="space-y-2">
@@ -88,5 +95,6 @@ export function Contact() {
         </FadeIn>
       </div>
     </div>
+    </>
   );
 }
