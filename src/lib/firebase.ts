@@ -1,5 +1,14 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
+  signOut, 
+  onAuthStateChanged,
+  User
+} from 'firebase/auth';
 import { 
   getFirestore, 
   doc, 
@@ -18,6 +27,9 @@ const app = initializeApp(firebaseConfig);
 // CRITICAL: Initialize Firestore with the exact database ID from config
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
+
+export const ADMIN_EMAIL = 'harrshaglobal@gmail.com';
 
 export enum OperationType {
   CREATE = 'create',
@@ -64,3 +76,12 @@ export async function testFirestoreConnection() {
 }
 
 testFirestoreConnection();
+
+export {
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  type User
+};

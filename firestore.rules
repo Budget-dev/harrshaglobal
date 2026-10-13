@@ -16,6 +16,15 @@ service cloud.firestore {
       return request.resource.data;
     }
 
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // STRICT: Only authenticated user with email harrshaglobal@gmail.com has administrative privileges
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email.lower() == 'harrshaglobal@gmail.com';
+    }
+
     function isValidApplication(data) {
       return data.keys().hasAll(['id', 'name', 'phone', 'email', 'position', 'department', 'office', 'experience', 'createdAt'])
         && data.id is string && data.id.size() <= 64
@@ -31,13 +40,13 @@ service cloud.firestore {
 
     // Job Applications collection
     match /applications/{applicationId} {
-      // Allow any candidate to submit an application with verified valid payload
+      // Allow candidates to submit their application
       allow create: if isValidId(applicationId)
         && incoming().id == applicationId
         && isValidApplication(incoming());
 
-      // Allow read, update, delete for administrative review
-      allow read, delete: if true;
+      // STRICT ADMIN RESTRICTION: Only harrshaglobal@gmail.com can read, list, update, or delete applications
+      allow read, update, delete: if isAdmin();
     }
 
     // Connection test document

@@ -210,68 +210,6 @@ app.post('/api/applications', upload.single('resume'), async (req: Request, res:
   }
 });
 
-// Admin Authentication & Listing
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'harrsha2026';
-
-app.post('/api/admin/login', (req: Request, res: Response) => {
-  const { password } = req.body;
-  if (password === ADMIN_PASSWORD) {
-    return res.json({ success: true, token: ADMIN_PASSWORD });
-  }
-  return res.status(401).json({ success: false, message: 'Invalid administrative password.' });
-});
-
-function requireAdmin(req: Request, res: Response, next: NextFunction) {
-  const token = req.headers['authorization']?.replace('Bearer ', '') || req.headers['x-admin-key'];
-  if (token === ADMIN_PASSWORD) {
-    return next();
-  }
-  return res.status(401).json({ success: false, message: 'Unauthorized. Admin credentials required.' });
-}
-
-app.get('/api/admin/applications', requireAdmin, (req: Request, res: Response) => {
-  const apps = getApplications();
-  return res.json({ success: true, applications: apps });
-});
-
-app.delete('/api/admin/applications/:id', requireAdmin, (req: Request, res: Response) => {
-  const { id } = req.params;
-  const apps = getApplications();
-  const filtered = apps.filter((a) => a.id !== id);
-  if (filtered.length === apps.length) {
-    return res.status(404).json({ success: false, message: 'Application not found' });
-  }
-  saveApplications(filtered);
-  return res.json({ success: true, message: 'Application removed successfully' });
-});
-
-app.get('/api/admin/export-csv', requireAdmin, (req: Request, res: Response) => {
-  const apps = getApplications();
-  const headers = ['Application ID', 'Date', 'Full Name', 'Phone', 'Email', 'Position', 'Department', 'Preferred Office', 'Experience', 'Resume File', 'Cover Note'];
-  
-  const csvRows = [headers.join(',')];
-  for (const app of apps) {
-    const row = [
-      `"${app.id}"`,
-      `"${app.timestamp}"`,
-      `"${(app.name || '').replace(/"/g, '""')}"`,
-      `"${(app.phone || '').replace(/"/g, '""')}"`,
-      `"${(app.email || '').replace(/"/g, '""')}"`,
-      `"${(app.position || '').replace(/"/g, '""')}"`,
-      `"${(app.department || '').replace(/"/g, '""')}"`,
-      `"${(app.office || '').replace(/"/g, '""')}"`,
-      `"${(app.experience || '').replace(/"/g, '""')}"`,
-      `"${(app.resume?.originalName || '').replace(/"/g, '""')}"`,
-      `"${(app.coverNote || '').replace(/"/g, '""').replace(/\n/g, ' ')}"`,
-    ];
-    csvRows.push(row.join(','));
-  }
-
-  res.setHeader('Content-Type', 'text/csv');
-  res.setHeader('Content-Disposition', 'attachment; filename="harrsha_applications.csv"');
-  res.send(csvRows.join('\n'));
-});
-
 // Start dev Vite or serve production build
 async function startServer() {
   const isProd = process.env.NODE_ENV === 'production';
