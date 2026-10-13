@@ -61,6 +61,9 @@ export function Footer() {
               <Link to="/blog" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
                 Blog
               </Link>
+              <Link to="/careers" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50 font-medium text-blue-600 dark:text-blue-400">
+                Careers
+              </Link>
               <Link to="/contact" className="block text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-950 dark:hover:text-zinc-50">
                 Contact
               </Link>

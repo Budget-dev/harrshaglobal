@@ -3,15 +3,23 @@ import { Helmet } from 'react-helmet-async';
 
 interface SEOProps {
   title: string;
-  description: string;
+  description?: string;
   name?: string;
   type?: string;
-  url: string;
+  url?: string;
   image?: string;
   schema?: object;
 }
 
-export function SEO({ title, description, name = 'Harrsha Global', type = 'website', url, image = 'https://harrshaglobal.com/og-image.jpg', schema }: SEOProps) {
+export function SEO({ 
+  title, 
+  description = 'Harrsha Global is a diversified industrial conglomerate operating in mining, sponge iron, granite, bulletproof sheet manufacturing, and real estate infrastructure across India and internationally.', 
+  name = 'Harrsha Global', 
+  type = 'website', 
+  url = '', 
+  image = 'https://harrshaglobal.com/og-image.jpg', 
+  schema 
+}: SEOProps) {
   const fullTitle = `${title} | Harrsha Global`;
   const fullUrl = `https://harrshaglobal.com${url}`;
 

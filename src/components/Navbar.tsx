@@ -96,6 +96,7 @@ export function Navbar() {
 
             <Link to="/portfolio" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>PORTFOLIO</Link>
             <Link to="/blog" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>BLOG</Link>
+            <Link to="/careers" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>CAREERS</Link>
             <Link to="/contact" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>CONTACT US</Link>
           </nav>
 
@@ -147,6 +148,7 @@ export function Navbar() {
 
             <Link to="/portfolio" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">PORTFOLIO</Link>
             <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">BLOG</Link>
+            <Link to="/careers" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">CAREERS</Link>
             <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">CONTACT US</Link>
           </nav>
         </div>

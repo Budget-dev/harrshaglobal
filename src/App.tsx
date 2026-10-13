@@ -11,6 +11,8 @@ import { RealEstate } from './pages/services/RealEstate';
 import { Granite } from './pages/services/Granite';
 import { MinesMinerals } from './pages/services/MinesMinerals';
 import { SpongeIron } from './pages/services/SpongeIron';
+import { Careers } from './pages/Careers';
+import { AdminApplications } from './pages/AdminApplications';
 import { ScrollToTop } from './components/ScrollToTop';
 
 import { FooterCTA } from './components/FooterCTA';
@@ -26,6 +28,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/admin/applications" element={<AdminApplications />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/services/bulletproof-sheet-manufacturing" element={<BulletproofSheet />} />
