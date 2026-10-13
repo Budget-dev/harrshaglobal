@@ -4,7 +4,6 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
-import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -84,25 +83,6 @@ function checkRateLimit(ip: string): boolean {
 
   current.count += 1;
   return true;
-}
-
-// Nodemailer transporter helper
-function getMailTransporter() {
-  const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-  const port = parseInt(process.env.SMTP_PORT || '587', 10);
-  const secure = process.env.SMTP_SECURE === 'true' || port === 465;
-
-  if (host && user && pass) {
-    return nodemailer.createTransport({
-      host,
-      port,
-      secure,
-      auth: { user, pass },
-    });
-  }
-  return null;
 }
 
 // Helper to read and write applications
@@ -214,96 +194,7 @@ app.post('/api/applications', upload.single('resume'), async (req: Request, res:
     apps.unshift(newApplication);
     saveApplications(apps);
 
-    // 5. Send automated emails
-    const transporter = getMailTransporter();
-    if (transporter) {
-      try {
-        const mailAttachments = req.file
-          ? [
-              {
-                filename: req.file.originalname,
-                path: req.file.path,
-              },
-            ]
-          : [];
-
-        // Email to HR: info@harrshaglobal.com
-        await transporter.sendMail({
-          from: process.env.SMTP_FROM || `"Harrsha Global Careers" <${process.env.SMTP_USER || 'careers@harrshaglobal.com'}>`,
-          to: 'info@harrshaglobal.com',
-          replyTo: email.trim(),
-          subject: `[New Application: ${applicationId}] ${position.trim()} - ${name.trim()}`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; color: #1e293b; line-height: 1.6;">
-              <div style="background-color: #0B1530; color: #ffffff; padding: 20px; border-radius: 8px 8px 0 0;">
-                <h2 style="margin: 0; font-size: 20px;">Harrsha Global - Candidate Application</h2>
-                <p style="margin: 5px 0 0; font-size: 14px; opacity: 0.85;">Application ID: <strong>${applicationId}</strong></p>
-              </div>
-              <div style="border: 1px solid #e2e8f0; border-top: none; padding: 24px; border-radius: 0 0 8px 8px; background: #ffffff;">
-                <table style="width: 100%; border-collapse: collapse;">
-                  <tr><td style="padding: 8px 0; font-weight: bold; width: 160px; color: #475569;">Candidate Name:</td><td>${name.trim()}</td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold; color: #475569;">Phone Number:</td><td>${phone.trim()}</td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold; color: #475569;">Email Address:</td><td>${email.trim()}</td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold; color: #475569;">Position Applied:</td><td><strong>${position.trim()}</strong></td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold; color: #475569;">Department:</td><td>${department.trim()}</td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold; color: #475569;">Preferred Office:</td><td>${office.trim()}</td></tr>
-                  <tr><td style="padding: 8px 0; font-weight: bold; color: #475569;">Total Experience:</td><td>${experience.trim()}</td></tr>
-                  ${req.file ? `<tr><td style="padding: 8px 0; font-weight: bold; color: #475569;">Resume:</td><td>${req.file.originalname} (Attached)</td></tr>` : ''}
-                </table>
-                ${
-                  coverNote && coverNote.trim()
-                    ? `<div style="margin-top: 16px; padding: 12px; background: #f8fafc; border-left: 4px solid #0B1530; border-radius: 4px;">
-                        <strong>Cover Note:</strong><br/>
-                        <p style="margin: 6px 0 0; white-space: pre-wrap;">${coverNote.trim()}</p>
-                      </div>`
-                    : ''
-                }
-                <div style="margin-top: 24px; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; pt: 12px;">
-                  Submitted on ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST
-                </div>
-              </div>
-            </div>
-          `,
-          attachments: mailAttachments,
-        });
-
-        // Auto-reply confirmation to applicant
-        await transporter.sendMail({
-          from: process.env.SMTP_FROM || `"Harrsha Global HR" <${process.env.SMTP_USER || 'careers@harrshaglobal.com'}>`,
-          to: email.trim(),
-          subject: `Application Confirmation - Harrsha Global (${applicationId})`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; color: #1e293b; line-height: 1.6;">
-              <div style="background-color: #0B1530; color: #ffffff; padding: 20px; border-radius: 8px 8px 0 0;">
-                <h2 style="margin: 0; font-size: 20px;">Harrsha Global Private Limited</h2>
-                <p style="margin: 5px 0 0; font-size: 14px; opacity: 0.85;">Careers & Human Resources</p>
-              </div>
-              <div style="border: 1px solid #e2e8f0; border-top: none; padding: 24px; border-radius: 0 0 8px 8px; background: #ffffff;">
-                <p>Dear <strong>${name.trim()}</strong>,</p>
-                <p>Thank you for applying to Harrsha Global for <strong>${position.trim()}</strong>.</p>
-                <div style="background: #f1f5f9; padding: 12px 16px; border-radius: 6px; margin: 16px 0; font-weight: bold; color: #0f172a;">
-                  Your Application ID: <span style="color: #2563eb;">${applicationId}</span>
-                </div>
-                <p>Our HR team has received your application and resume. We will review your profile and contact you shortly regarding the next steps.</p>
-                <p style="margin-top: 20px;">If you have any questions, you can reach us at <a href="mailto:info@harrshaglobal.com">info@harrshaglobal.com</a> or call <strong>+91 9491750999</strong>.</p>
-                <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;" />
-                <p style="font-size: 13px; color: #64748b; margin: 0;">
-                  Warm regards,<br />
-                  <strong>HR Team | Harrsha Global Private Limited</strong><br />
-                  Visakhapatnam, Andhra Pradesh, India<br />
-                  <a href="https://www.harrshaglobal.com/careers" style="color: #2563eb;">www.harrshaglobal.com/careers</a>
-                </p>
-              </div>
-            </div>
-          `,
-        });
-        console.log(`[Email] Both HR alert and candidate confirmation sent for ${applicationId}`);
-      } catch (mailErr) {
-        console.error('[Email Error] Failed sending email via SMTP:', mailErr);
-      }
-    } else {
-      console.log(`[Email Notice] SMTP not configured in .env. Application ${applicationId} recorded safely. Simulated email sent to info@harrshaglobal.com and ${email.trim()}`);
-    }
+    console.log(`[Application Recorded] ID: ${applicationId} for candidate ${name.trim()} (${position.trim()})`);
 
     return res.status(200).json({
       success: true,

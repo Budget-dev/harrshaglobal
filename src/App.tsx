@@ -37,6 +37,7 @@ export default function App() {
           <Route path="/services/granite" element={<Granite />} />
           <Route path="/services/mines-minerals" element={<MinesMinerals />} />
           <Route path="/services/sponge-iron" element={<SpongeIron />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </main>
       <FooterCTA />

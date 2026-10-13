@@ -21,6 +21,7 @@ import {
 import { SEO } from '../components/SEO';
 import { FadeIn } from '../components/FadeIn';
 import { DEPARTMENTS, JOBS_DATA, OFFICE_LOCATIONS, JobListing } from '../data/jobs';
+import { submitApplicationToFirestore } from '../services/applicationsService';
 
 export function Careers() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -216,34 +217,56 @@ export function Careers() {
     setIsSubmitting(true);
 
     try {
-      const data = new FormData();
-      data.append('name', formData.name);
-      data.append('phone', formData.phone);
-      data.append('email', formData.email);
-      data.append('position', formData.position);
-      data.append('department', formData.department);
-      data.append('office', formData.office);
-      data.append('experience', formData.experience);
-      data.append('coverNote', formData.coverNote);
-      data.append('hp_field', formData.hp_field);
+      let resumeData = '';
+      let resumeName = '';
+      let resumeSize = '';
 
       if (resumeFile) {
-        data.append('resume', resumeFile);
+        resumeName = resumeFile.name;
+        resumeSize = `${(resumeFile.size / (1024 * 1024)).toFixed(2)} MB`;
+        resumeData = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(resumeFile);
+        });
       }
 
-      const res = await fetch('/api/applications', {
-        method: 'POST',
-        body: data,
+      // 1. Submit directly to Firebase Firestore
+      const firestoreResult = await submitApplicationToFirestore({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        position: formData.position,
+        department: formData.department,
+        office: formData.office,
+        experience: formData.experience,
+        coverNote: formData.coverNote,
+        resumeName,
+        resumeSize,
+        resumeData,
       });
 
-      const result = await res.json();
-
-      if (!res.ok || !result.success) {
-        throw new Error(result.message || 'Failed to submit application.');
+      // 2. Also sync to local backend if online
+      try {
+        const data = new FormData();
+        data.append('name', formData.name);
+        data.append('phone', formData.phone);
+        data.append('email', formData.email);
+        data.append('position', formData.position);
+        data.append('department', formData.department);
+        data.append('office', formData.office);
+        data.append('experience', formData.experience);
+        data.append('coverNote', formData.coverNote);
+        data.append('hp_field', formData.hp_field);
+        if (resumeFile) data.append('resume', resumeFile);
+        await fetch('/api/applications', { method: 'POST', body: data });
+      } catch {
+        // Local server sync is optional
       }
 
       setSubmitSuccessData({
-        applicationId: result.applicationId,
+        applicationId: firestoreResult.applicationId,
         position: formData.position,
         name: formData.name,
       });
@@ -504,86 +527,81 @@ export function Careers() {
                 </button>
               </div>
             ) : (
-              <div className="space-y-10">
+              <div className="space-y-12">
                 {Object.entries(groupedJobs).map(([department, jobs]) => (
-                  <div
-                    key={department}
-                    className="bg-white rounded-xl shadow-sm border border-slate-200/90 overflow-hidden"
-                  >
-                    {/* Department Title */}
-                    <div className="bg-slate-50 border-b border-slate-200/80 px-6 py-4 flex flex-wrap items-center justify-between gap-3">
+                  <div key={department} className="space-y-5">
+                    {/* Department Title Header */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3">
                       <div className="flex items-center gap-3">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#0B1530]" />
-                        <h3 className="text-base md:text-lg font-bold text-[#0B1530] uppercase tracking-wide">
+                        <span className="w-3 h-3 rounded-full bg-[#0B1530]" />
+                        <h3 className="text-lg md:text-xl font-bold text-[#0B1530] uppercase tracking-wide">
                           {department}
                         </h3>
                       </div>
-                      <span className="text-xs font-semibold px-2.5 py-1 bg-white border border-slate-200 rounded-full text-slate-600">
-                        {jobs.length} {jobs.length === 1 ? 'Opening' : 'Openings'}
+                      <span className="text-xs font-semibold px-3 py-1 bg-white border border-slate-200 rounded-full text-slate-700 shadow-xs">
+                        {jobs.length} {jobs.length === 1 ? 'Position Available' : 'Positions Available'}
                       </span>
                     </div>
 
-                    {/* Desktop & Tablet Table */}
-                    <div className="hidden sm:block overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
-                        <thead>
-                          <tr className="bg-[#0B1530] text-white text-xs uppercase tracking-wider font-semibold">
-                            <th className="py-3 px-6 w-1/3 border-r border-slate-700/50">Post</th>
-                            <th className="py-3 px-6 w-1/3 border-r border-slate-700/50">Qualification</th>
-                            <th className="py-3 px-6 w-1/4 border-r border-slate-700/50">Salary / Month</th>
-                            <th className="py-3 px-6 text-center w-28">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 text-sm">
-                          {jobs.map((job, idx) => (
-                            <tr
-                              key={job.id}
-                              className={`hover:bg-blue-50/40 transition-colors ${
-                                idx % 2 === 1 ? 'bg-slate-50/40' : 'bg-white'
-                              }`}
-                            >
-                              <td className="py-3.5 px-6 font-semibold text-slate-900 border-r border-slate-100">
-                                {job.post}
-                              </td>
-                              <td className="py-3.5 px-6 text-slate-600 border-r border-slate-100 font-normal">
-                                {job.qualification}
-                              </td>
-                              <td className="py-3.5 px-6 font-medium text-emerald-700 border-r border-slate-100 whitespace-nowrap">
-                                {job.salary}
-                              </td>
-                              <td className="py-3.5 px-6 text-center whitespace-nowrap">
-                                <button
-                                  onClick={() => handleApplyClick(job)}
-                                  className="bg-[#0B1530] hover:bg-blue-900 text-white text-xs font-semibold px-4 py-1.5 rounded-lg transition-all shadow-sm hover:shadow cursor-pointer"
-                                >
-                                  Apply
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-
-                    {/* Mobile Card Layout */}
-                    <div className="sm:hidden divide-y divide-slate-100">
+                    {/* Job Cards Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                       {jobs.map((job) => (
-                        <div key={job.id} className="p-4 space-y-3">
-                          <div className="flex items-start justify-between gap-2">
-                            <h4 className="font-bold text-slate-900 text-base">{job.post}</h4>
-                            <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 shrink-0">
-                              {job.salary}
-                            </span>
+                        <div
+                          key={job.id}
+                          className="bg-white rounded-2xl border border-slate-200/90 hover:border-blue-400 p-6 flex flex-col justify-between shadow-xs hover:shadow-lg transition-all duration-200 group relative overflow-hidden"
+                        >
+                          {/* Accent bar at top on hover */}
+                          <div className="absolute top-0 left-0 right-0 h-1 bg-[#0B1530] opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                          <div>
+                            {/* Department pill & Full-time badge */}
+                            <div className="flex items-center justify-between gap-2 mb-3">
+                              <span className="text-[11px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md">
+                                {department.length > 24 ? department.substring(0, 22) + '...' : department}
+                              </span>
+                              <span className="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                                Full Time
+                              </span>
+                            </div>
+
+                            {/* Job Title / Post */}
+                            <h4 className="text-lg font-bold text-[#0B1530] group-hover:text-blue-900 transition-colors tracking-tight mb-3">
+                              {job.post}
+                            </h4>
+
+                            {/* Salary Box */}
+                            <div className="bg-emerald-50/90 border border-emerald-200/70 rounded-xl p-3 mb-4">
+                              <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-800 block">
+                                Salary / Month
+                              </span>
+                              <span className="text-base font-extrabold text-emerald-700 block mt-0.5">
+                                {job.salary}
+                              </span>
+                            </div>
+
+                            {/* Qualification & Requirements */}
+                            <div className="space-y-2 mb-5 text-xs text-slate-600">
+                              <div className="flex items-start gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                                <span className="font-semibold text-slate-800 shrink-0">Qualification:</span>
+                                <span className="text-slate-700 font-medium">{job.qualification}</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-slate-500 text-[11px] px-1">
+                                <MapPin size={12} className="text-slate-400 shrink-0" />
+                                <span>Visakhapatnam & Site Operations</span>
+                              </div>
+                            </div>
                           </div>
-                          <div className="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-lg">
-                            <strong className="text-slate-800">Qualification:</strong> {job.qualification}
+
+                          {/* Card Action Button */}
+                          <div className="pt-2 border-t border-slate-100">
+                            <button
+                              onClick={() => handleApplyClick(job)}
+                              className="w-full bg-[#0B1530] hover:bg-blue-900 text-white text-xs font-bold py-3 px-4 rounded-xl transition-all shadow-xs hover:shadow-md flex items-center justify-center gap-2 cursor-pointer group-hover:scale-[1.01]"
+                            >
+                              <span>Apply for this Position</span>
+                              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                            </button>
                           </div>
-                          <button
-                            onClick={() => handleApplyClick(job)}
-                            className="w-full bg-[#0B1530] hover:bg-blue-900 text-white text-xs font-bold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-                          >
-                            Apply for this Position <ArrowRight size={14} />
-                          </button>
                         </div>
                       ))}
                     </div>

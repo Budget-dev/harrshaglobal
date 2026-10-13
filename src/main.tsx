@@ -9,6 +9,12 @@ if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 
+const redirectPath = sessionStorage.getItem('redirect_path');
+if (redirectPath) {
+  sessionStorage.removeItem('redirect_path');
+  window.history.replaceState(null, '', '/' + redirectPath);
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HelmetProvider>

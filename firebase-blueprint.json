@@ -1,0 +1,85 @@
+{
+  "entities": {
+    "Application": {
+      "title": "Application",
+      "description": "A candidate job application for Harrsha Global",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique Application ID (e.g. HG-2026-0001)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Candidate full name"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Candidate phone number"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Candidate email address"
+        },
+        "position": {
+          "type": "string",
+          "description": "Position applied for"
+        },
+        "department": {
+          "type": "string",
+          "description": "Department name"
+        },
+        "office": {
+          "type": "string",
+          "description": "Preferred office location"
+        },
+        "experience": {
+          "type": "string",
+          "description": "Total experience summary"
+        },
+        "coverNote": {
+          "type": "string",
+          "description": "Optional candidate cover note"
+        },
+        "resumeName": {
+          "type": "string",
+          "description": "Original file name of uploaded resume"
+        },
+        "resumeSize": {
+          "type": "string",
+          "description": "Size in bytes or formatted string of uploaded resume"
+        },
+        "resumeData": {
+          "type": "string",
+          "description": "Data URL or storage link for resume file"
+        },
+        "status": {
+          "type": "string",
+          "description": "Application review status (Received, Shortlisted, etc.)"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Submission ISO date string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "phone",
+        "email",
+        "position",
+        "department",
+        "office",
+        "experience",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/applications/{applicationId}": {
+      "schema": "Application",
+      "description": "Collection of candidate job applications"
+    }
+  }
+}

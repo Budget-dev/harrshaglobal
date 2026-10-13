@@ -18,6 +18,11 @@ import {
 } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { DEPARTMENTS } from '../data/jobs';
+import { 
+  getApplicationsFromFirestore, 
+  deleteApplicationFromFirestore, 
+  CandidateApplication 
+} from '../services/applicationsService';
 
 interface ApplicationRecord {
   id: string;
@@ -95,6 +100,14 @@ export function AdminApplications() {
     if (!token) return;
     setIsLoading(true);
     try {
+      // 1. Try fetching directly from Firestore
+      const firestoreApps = await getApplicationsFromFirestore();
+      if (firestoreApps && firestoreApps.length > 0) {
+        setApplications(firestoreApps);
+        return;
+      }
+
+      // 2. Fallback to server endpoint if any
       const res = await fetch('/api/admin/applications', {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -107,8 +120,10 @@ export function AdminApplications() {
       }
 
       const data = await res.json();
-      if (data.success) {
-        setApplications(data.applications || []);
+      if (data.success && data.applications?.length) {
+        setApplications(data.applications);
+      } else {
+        setApplications(firestoreApps || []);
       }
     } catch (err) {
       console.error('Failed to fetch applications:', err);
@@ -120,43 +135,68 @@ export function AdminApplications() {
   const handleDelete = async (id: string) => {
     if (!token) return;
     try {
-      const res = await fetch(`/api/admin/applications/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (res.ok) {
-        setApplications((prev) => prev.filter((a) => a.id !== id));
-        setDeleteConfirmId(null);
-        if (selectedAppModal?.id === id) {
-          setSelectedAppModal(null);
-        }
+      await deleteApplicationFromFirestore(id);
+      try {
+        await fetch(`/api/admin/applications/${id}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch {}
+
+      setApplications((prev) => prev.filter((a) => a.id !== id));
+      setDeleteConfirmId(null);
+      if (selectedAppModal?.id === id) {
+        setSelectedAppModal(null);
       }
     } catch (err) {
       console.error('Failed to delete application:', err);
     }
   };
 
-  const handleExportCSV = async () => {
-    if (!token) return;
-    try {
-      const res = await fetch('/api/admin/export-csv', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `harrsha_applications_${new Date().toISOString().split('T')[0]}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    } catch (err) {
-      console.error('Failed to export CSV:', err);
+  const handleExportCSV = () => {
+    if (!token || applications.length === 0) return;
+    const headers = [
+      'Application ID',
+      'Date',
+      'Full Name',
+      'Phone',
+      'Email',
+      'Position',
+      'Department',
+      'Preferred Office',
+      'Experience',
+      'Resume File',
+      'Cover Note',
+    ];
+
+    const csvRows = [headers.join(',')];
+    for (const app of applications) {
+      const row = [
+        `"${app.id}"`,
+        `"${app.createdAt || app.timestamp || ''}"`,
+        `"${(app.name || '').replace(/"/g, '""')}"`,
+        `"${(app.phone || '').replace(/"/g, '""')}"`,
+        `"${(app.email || '').replace(/"/g, '""')}"`,
+        `"${(app.position || '').replace(/"/g, '""')}"`,
+        `"${(app.department || '').replace(/"/g, '""')}"`,
+        `"${(app.office || '').replace(/"/g, '""')}"`,
+        `"${(app.experience || '').replace(/"/g, '""')}"`,
+        `"${(app.resumeName || app.resume?.originalName || '').replace(/"/g, '""')}"`,
+        `"${(app.coverNote || '').replace(/"/g, '""').replace(/\n/g, ' ')}"`,
+      ];
+      csvRows.push(row.join(','));
     }
+
+    const blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `harrsha_applications_${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   };
 
   const filteredApplications = applications.filter((app) => {
@@ -375,16 +415,16 @@ export function AdminApplications() {
                       </td>
 
                       <td className="py-4 px-4">
-                        {app.resume ? (
+                        {app.resumeData || app.resume ? (
                           <a
-                            href={app.resume.url}
+                            href={app.resumeData || app.resume?.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            download={app.resume.originalName}
+                            download={app.resumeName || app.resume?.originalName || 'Resume'}
                             className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-semibold transition-colors"
                           >
                             <FileText size={13} />
-                            <span className="max-w-[120px] truncate">{app.resume.originalName}</span>
+                            <span className="max-w-[120px] truncate">{app.resumeName || app.resume?.originalName || 'Resume'}</span>
                           </a>
                         ) : (
                           <span className="text-xs text-slate-400 italic">No file</span>
@@ -469,24 +509,24 @@ export function AdminApplications() {
                 </div>
               )}
 
-              {selectedAppModal.resume && (
+              {(selectedAppModal.resumeData || selectedAppModal.resume) && (
                 <div className="p-3 bg-blue-50/70 border border-blue-200 rounded-xl flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <FileText size={18} className="text-blue-600" />
                     <div>
                       <span className="text-xs font-bold text-slate-900 block truncate max-w-xs">
-                        {selectedAppModal.resume.originalName}
+                        {selectedAppModal.resumeName || selectedAppModal.resume?.originalName || 'Candidate Resume'}
                       </span>
                       <span className="text-[11px] text-slate-500">
-                        {(selectedAppModal.resume.size / (1024 * 1024)).toFixed(2)} MB
+                        {selectedAppModal.resumeSize || (selectedAppModal.resume?.size ? `${(selectedAppModal.resume.size / (1024 * 1024)).toFixed(2)} MB` : '')}
                       </span>
                     </div>
                   </div>
                   <a
-                    href={selectedAppModal.resume.url}
+                    href={selectedAppModal.resumeData || selectedAppModal.resume?.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    download={selectedAppModal.resume.originalName}
+                    download={selectedAppModal.resumeName || selectedAppModal.resume?.originalName || 'Candidate_Resume'}
                     className="px-3 py-1.5 bg-[#0B1530] text-white rounded-lg text-xs font-semibold hover:bg-blue-900"
                   >
                     Download Resume
