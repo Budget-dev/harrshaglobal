@@ -109,25 +109,67 @@ export function SpongeIron() {
 
   const contactNumbers = ["+91 94817 56999", "+91 94413 53791", "+91 73867 34389"];
 
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.harrshaglobal.com/' },
+    { name: 'Sponge Iron & Steel', url: 'https://www.harrshaglobal.com/sponge-iron' },
+  ];
+
+  const spongeIronSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Direct Reduced Sponge Iron (DRI)',
+    image: 'https://vennky.sirv.com/iron%20spongs/WhatsApp%20Image%202026-07-03%20at%207.13.59%20PM.jpeg',
+    description: '100,000 MT per annum Direct Reduced Sponge Iron (DRI) manufactured via high-temperature rotary kilns in Visakhapatnam.',
+    brand: {
+      '@type': 'Brand',
+      name: 'Harrsha Global',
+    },
+    manufacturer: {
+      '@type': 'Organization',
+      name: 'Harrsha Global Private Limited',
+      url: 'https://www.harrshaglobal.com',
+    },
+  };
+
   return (
     <>
       <SEO 
-        title="Sponge Iron & Ore Mining"
-        description="State-of-the-art mini steel plant specializing in premium-grade Sponge Iron (DRI) and high-yield iron ore operations across India's mineral-rich zones."
-        url="/services/sponge-iron"
+        title="Sponge Iron Manufacturer India | Harrsha Global Steel Plant"
+        description="Harrsha Global operates a 100,000 MT/year Direct Reduced Iron (DRI) sponge iron rotary kiln plant in Anakapalli, Visakhapatnam, supplying steel melting shops."
+        url="/sponge-iron"
+        schema={[
+          spongeIronSchema,
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: breadcrumbs.map((b, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: b.name,
+              item: b.url,
+            })),
+          },
+        ]}
       />
       <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
-        <div className="w-full max-w-4xl mx-auto space-y-16">
+        <div className="w-full max-w-4xl mx-auto space-y-12">
         
+        {/* Breadcrumb Navigation */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-500">
+          <Link to="/" className="hover:text-blue-700 transition-colors">Home</Link>
+          <span className="text-slate-400">/</span>
+          <span className="text-slate-800 font-semibold">Sponge Iron & Steel</span>
+        </nav>
+
         {/* Simple, Bold, Elegant Editorial Statement */}
         <FadeIn delay={0.1}>
           <div className="space-y-4 text-center md:text-left">
             <p className="text-xs font-bold tracking-[0.3em] text-slate-400 uppercase">
-              Harrsha Global
+              Harrsha Global Industrial Division
             </p>
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-950 uppercase leading-none">
               Sponge Iron & <br />
-              Ore Mining
+              Steel Manufacturing India
             </h1>
             <p className="text-slate-500 text-sm md:text-base font-normal max-w-xl leading-relaxed pt-2">
               Advanced high-efficiency Direct Reduced Iron (DRI) processing at our Visakhapatnam steel plant paired with high-grade Fe iron ore operations.

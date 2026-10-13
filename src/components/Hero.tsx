@@ -24,9 +24,9 @@ export function Hero() {
           isLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
-        <h1 className="text-2xl font-semibold tracking-widest uppercase text-slate-900 mb-6 font-sans">
+        <div className="text-2xl font-semibold tracking-widest uppercase text-slate-900 mb-6 font-sans">
           HARRSHA GLOBAL
-        </h1>
+        </div>
         <div className="w-8 h-8 border-2 border-slate-200 border-t-blue-600 rounded-full animate-spin" />
       </div>
 
@@ -51,8 +51,11 @@ export function Hero() {
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col justify-center py-8">
           <div className="max-w-xl md:max-w-2xl text-left">
             <FadeIn delay={0.15}>
-              {/* Header/Company Name */}
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-wide text-[#0F172A] mb-6 uppercase font-sans leading-[1.05]">
+              <div className="inline-block px-3 py-1 rounded-md bg-blue-50 border border-blue-200/60 text-blue-800 text-xs font-bold uppercase tracking-wider mb-3">
+                Mining · Sponge Iron · Granite · Infrastructure
+              </div>
+              {/* Header/Company Name Single H1 */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-wide text-[#0F172A] mb-4 uppercase font-sans leading-[1.05]">
                 HARRSHAGLOBAL <br />
                 PVT LTD
               </h1>

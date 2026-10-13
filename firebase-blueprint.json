@@ -74,12 +74,58 @@
         "experience",
         "createdAt"
       ]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "A job opening listing at Harrsha Global",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique job ID"
+        },
+        "department": {
+          "type": "string",
+          "description": "Department category"
+        },
+        "post": {
+          "type": "string",
+          "description": "Job title or post name"
+        },
+        "qualification": {
+          "type": "string",
+          "description": "Required qualifications and experience"
+        },
+        "salary": {
+          "type": "string",
+          "description": "Monthly salary range"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        },
+        "isArchived": {
+          "type": "boolean",
+          "description": "Whether the job is deleted/archived"
+        }
+      },
+      "required": [
+        "id",
+        "department",
+        "post",
+        "qualification",
+        "salary"
+      ]
     }
   },
   "firestore": {
     "/applications/{applicationId}": {
       "schema": "Application",
       "description": "Collection of candidate job applications"
+    },
+    "/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Collection of all open and custom career opportunities managed by admin"
     }
   }
 }

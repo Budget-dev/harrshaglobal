@@ -4,27 +4,69 @@ import { Shield, ChevronRight } from 'lucide-react';
 import { SEO } from '../../components/SEO';
 
 export function BulletproofSheet() {
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.harrshaglobal.com/' },
+    { name: 'Bulletproof Sheets', url: 'https://www.harrshaglobal.com/bulletproof-sheets' },
+  ];
+
+  const bulletproofSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Ballistic Bulletproof Sheets & Polycarbonate Panels',
+    image: 'https://vennky.sirv.com/iron%20spongs/ballari/Microsoft_%20Project%20Silica.jpg',
+    description: 'Ballistic-grade bulletproof sheets and polycarbonate composite laminates manufactured by Harrsha Global for defense, cash-in-transit vehicles, and security posts.',
+    brand: {
+      '@type': 'Brand',
+      name: 'Harrsha Global',
+    },
+    manufacturer: {
+      '@type': 'Organization',
+      name: 'Harrsha Global Private Limited',
+      url: 'https://www.harrshaglobal.com',
+    },
+  };
+
   return (
     <>
       <SEO 
-        title="Bulletproof Sheet Manufacturing"
-        description="High-security bulletproof sheets, polycarbonate panels, and ballistic-grade composites manufactured by Harrsha Global for defense and infrastructure."
-        url="/services/bulletproof-sheet-manufacturing"
+        title="Bulletproof Sheet Manufacturer India | Harrsha Global Defense"
+        description="Harrsha Global manufactures certified ballistic bulletproof sheets, polycarbonate panels, and Kevlar composites for defense vehicles, banks & guardrooms."
+        url="/bulletproof-sheets"
+        schema={[
+          bulletproofSchema,
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: breadcrumbs.map((b, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: b.name,
+              item: b.url,
+            })),
+          },
+        ]}
       />
-      <div className="pt-32 pb-24 bg-background min-h-screen">
+      <div className="pt-28 pb-24 bg-background min-h-screen">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        {/* Breadcrumb Navigation */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-500 mb-8">
+          <Link to="/" className="hover:text-blue-700 transition-colors">Home</Link>
+          <ChevronRight size={14} className="text-slate-400" />
+          <span className="text-slate-800 font-semibold">Bulletproof Sheets</span>
+        </nav>
+
         <FadeIn>
-          <div className="aspect-[21/9] w-full overflow-hidden mb-16 rounded-2xl">
+          <div className="aspect-[21/9] w-full overflow-hidden mb-12 rounded-3xl border border-slate-200">
             <img 
               src="https://vennky.sirv.com/iron%20spongs/ballari/Microsoft_%20Project%20Silica.jpg" 
-              alt="Bulletproof Sheet Manufacturing" 
+              alt="Harrsha Global Bulletproof Sheet Ballistic Manufacturing" 
               className="w-full h-full object-cover"
             />
           </div>
           
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-12 text-center">
-              Bulletproof Sheet Manufacturing
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0B1530] mb-8 text-center uppercase tracking-tight">
+              Bulletproof Sheet Manufacturing India
             </h1>
             
             <div className="space-y-16">

@@ -127,25 +127,67 @@ export function Granite() {
     }
   ];
 
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.harrshaglobal.com/' },
+    { name: 'Granite & Natural Stone', url: 'https://www.harrshaglobal.com/granite' },
+  ];
+
+  const graniteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Indian Natural Granite Slabs & Blocks',
+    image: 'https://vennky.sirv.com/granite/WhatsApp%20Image%202026-07-03%20at%207.09.47%20PM.jpeg',
+    description: 'First-grade Black Galaxy and SK Blue granite extracted from certified quarries in Chimakurthi and Tekkali, Andhra Pradesh. Gangsaw slabs, blocks, and tiles.',
+    brand: {
+      '@type': 'Brand',
+      name: 'Harrsha Global',
+    },
+    manufacturer: {
+      '@type': 'Organization',
+      name: 'Harrsha Global Private Limited',
+      url: 'https://www.harrshaglobal.com',
+    },
+  };
+
   return (
     <>
       <SEO 
-        title="Premium Natural Granite Sourcing"
-        description="Premium natural granite sourcing by Harrsha Global, including Black Galaxy and SK Blue. Quarry-direct procurement, block cutting, and international export."
-        url="/services/granite"
+        title="Granite Supplier & Exporter India | Harrsha Global Quarries"
+        description="Harrsha Global extracts and exports premium Black Galaxy & SK Blue granite from quarries in Chimakurthi & Tekkali. Gangsaw slabs, dimensional blocks & tiles."
+        url="/granite"
+        schema={[
+          graniteSchema,
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: breadcrumbs.map((b, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: b.name,
+              item: b.url,
+            })),
+          },
+        ]}
       />
       <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
-        <div className="w-full max-w-4xl mx-auto space-y-16">
+        <div className="w-full max-w-4xl mx-auto space-y-12">
         
-        {/* Simple, Bold, Elegant Editorial Statement */}
+        {/* Breadcrumb Navigation */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-500">
+          <Link to="/" className="hover:text-blue-700 transition-colors">Home</Link>
+          <span className="text-slate-400">/</span>
+          <span className="text-slate-800 font-semibold">Granite & Natural Stone</span>
+        </nav>
+
+        {/* Editorial Statement */}
         <FadeIn delay={0.1}>
           <div className="space-y-4 text-center md:text-left">
             <p className="text-xs font-bold tracking-[0.3em] text-slate-400 uppercase">
-              Harrsha Global
+              Harrsha Global Industrial Division
             </p>
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-950 uppercase leading-none">
-              Premium Natural <br />
-              Granite Sourcing
+              Granite Supplier & <br />
+              Natural Stone Exporter
             </h1>
             <p className="text-slate-500 text-sm md:text-base font-normal max-w-xl leading-relaxed pt-2">
               Quarry-direct procurement, advanced gang saw block cutting, mirror-resin polishing, and certified international export shipping.

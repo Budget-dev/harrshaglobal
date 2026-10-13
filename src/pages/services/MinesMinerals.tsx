@@ -99,25 +99,74 @@ export function MinesMinerals() {
     }
   ];
 
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.harrshaglobal.com/' },
+    { name: 'Mining & Minerals', url: 'https://www.harrshaglobal.com/mining' },
+  ];
+
+  const miningSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Iron Ore Mining & Mineral Processing',
+    provider: {
+      '@type': 'Organization',
+      name: 'Harrsha Global Private Limited',
+      url: 'https://www.harrshaglobal.com',
+    },
+    description: 'High-volume iron ore excavation, dry screening, calibrated lumps (Fe 64.5%), fines, and non-coking coal supply.',
+    areaServed: 'India & International',
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Mineral Products Catalog',
+      itemListElement: [
+        { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Calibrated Iron Ore Lumps (Fe 64.5%)' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Premium Iron Ore Fines (Fe 62%)' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'High-Calorific Steam Coal' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Product', name: 'Metallurgical Manganese Ore' } },
+      ],
+    },
+  };
+
   return (
     <>
       <SEO 
-        title="Mines & Mineral Processing"
-        description="High-volume mineral excavation, dry screening, iron ore lumps, and non-coking coal by Harrsha Global. Reliable supply for metallurgical operations."
-        url="/services/mines-minerals"
+        title="Iron Ore Mining & Mineral Processing India | Harrsha Global"
+        description="Harrsha Global operates iron ore mining concessions in Ballari & Barbil, supplying Fe 64.5% calibrated lumps, fines & steam coal for steel plants."
+        url="/mining"
+        schema={[
+          miningSchema,
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: breadcrumbs.map((b, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: b.name,
+              item: b.url,
+            })),
+          },
+        ]}
       />
       <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
-        <div className="w-full max-w-4xl mx-auto space-y-16">
+        <div className="w-full max-w-4xl mx-auto space-y-12">
         
-        {/* Simple, Bold, Elegant Editorial Statement */}
+        {/* Breadcrumb Navigation */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-500">
+          <Link to="/" className="hover:text-blue-700 transition-colors">Home</Link>
+          <span className="text-slate-400">/</span>
+          <span className="text-slate-800 font-semibold">Mines & Minerals</span>
+        </nav>
+
+        {/* Editorial Statement */}
         <FadeIn delay={0.1}>
           <div className="space-y-4 text-center md:text-left">
             <p className="text-xs font-bold tracking-[0.3em] text-slate-400 uppercase">
-              Harrsha Global
+              Harrsha Global Industrial Division
             </p>
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-950 uppercase leading-none">
               Mines & Mineral <br />
-              Processing
+              Processing India
+            </h1>
             </h1>
             <p className="text-slate-500 text-sm md:text-base font-normal max-w-xl leading-relaxed pt-2">
               High-volume mineral excavation, mechanical dry screening, standardized lab grade certifications, and secure multimodal logistics.

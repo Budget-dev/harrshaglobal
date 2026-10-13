@@ -1,0 +1,16 @@
+{
+  "name": "Harrsha Global Private Limited",
+  "short_name": "Harrsha Global",
+  "description": "Diversified industrial group: mining, minerals, sponge iron, granite, bulletproof sheets, and real estate infrastructure.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1530",
+  "theme_color": "#0B1530",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

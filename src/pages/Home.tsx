@@ -15,8 +15,8 @@ export function Home() {
   return (
     <>
       <SEO 
-        title="Industrial Manufacturing, Mining & Infrastructure"
-        description="Harrsha Global is a premier industrial conglomerate in India, specializing in mining, sponge iron, natural granite, advanced bulletproof polymers, and real estate infrastructure."
+        title="Harrsha Global | Mining, Sponge Iron, Granite & Infrastructure Company in India"
+        description="Harrsha Global is a diversified industrial conglomerate in India specializing in iron ore mining, sponge iron, granite, bulletproof sheets & real estate."
         url="/"
       />
       <Hero />

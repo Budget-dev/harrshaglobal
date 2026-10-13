@@ -70,32 +70,37 @@ export function Navbar() {
               </button>
               <div className="absolute top-full left-1/2 -translate-x-1/2 w-[1050px] pt-0 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                 <div className="bg-white border border-slate-200 p-8 grid grid-cols-3 gap-8 shadow-xl rounded-2xl mt-2">
-                  <Link to="/services/bulletproof-sheet-manufacturing" className="group/item">
+                  <Link to="/bulletproof-sheets" className="group/item">
                     <h4 className="text-slate-900 font-medium mb-2 group-hover/item:text-blue-600 transition-colors">Bulletproof Sheet Manufacturing</h4>
                     <p className="text-slate-500 text-xs leading-relaxed">Advanced protective sheet manufacturing for defense, industrial safety, and high-security infrastructure.</p>
                   </Link>
-                  <Link to="/services/real-estate-infrastructure" className="group/item">
+                  <Link to="/real-estate-infrastructure" className="group/item">
                     <h4 className="text-slate-900 font-medium mb-2 group-hover/item:text-blue-600 transition-colors">Real Estate & Infrastructure</h4>
                     <p className="text-slate-500 text-xs leading-relaxed">End-to-end real estate solutions – from planning to construction. We develop residential, commercial, and industrial properties with structural integrity.</p>
                   </Link>
-                  <Link to="/services/granite" className="group/item">
-                    <h4 className="text-slate-900 font-medium mb-2 group-hover/item:text-blue-600 transition-colors">Granite</h4>
+                  <Link to="/granite" className="group/item">
+                    <h4 className="text-slate-900 font-medium mb-2 group-hover/item:text-blue-600 transition-colors">Granite & Natural Stone</h4>
                     <p className="text-slate-500 text-xs leading-relaxed">Premium-grade Black Galaxy & SK Blue granite extracted from certified quarries in Chimakurthi & Tekkali.</p>
                   </Link>
-                  <Link to="/services/mines-minerals" className="group/item">
-                    <h4 className="text-slate-900 font-medium mb-2 group-hover/item:text-blue-600 transition-colors">Mines & Minerals</h4>
-                    <p className="text-slate-500 text-xs leading-relaxed">Sustainable exploration and extraction of essential minerals. We ensure regulatory compliance and ecological responsibility.</p>
+                  <Link to="/mining" className="group/item">
+                    <h4 className="text-slate-900 font-medium mb-2 group-hover/item:text-blue-600 transition-colors">Mines & Mineral Processing</h4>
+                    <p className="text-slate-500 text-xs leading-relaxed">Sustainable exploration and extraction of essential minerals. Calibrated iron ore lumps, fines, and thermal coal.</p>
                   </Link>
-                  <Link to="/services/sponge-iron" className="group/item">
-                    <h4 className="text-slate-900 font-medium mb-2 group-hover/item:text-blue-600 transition-colors">Sponge Iron Mini Steel Plant</h4>
+                  <Link to="/sponge-iron" className="group/item">
+                    <h4 className="text-slate-900 font-medium mb-2 group-hover/item:text-blue-600 transition-colors">Sponge Iron & Steel</h4>
                     <p className="text-slate-500 text-xs leading-relaxed">State-of-the-art 100,000 MT per year direct reduction iron (DRI) plant operating in Anakapalli, Visakhapatnam.</p>
+                  </Link>
+                  <Link to="/gallery" className="group/item">
+                    <h4 className="text-slate-900 font-medium mb-2 group-hover/item:text-blue-600 transition-colors">Industrial Gallery</h4>
+                    <p className="text-slate-500 text-xs leading-relaxed">Visual photographic documentation of our mining concessions, rotary kilns, granite quarries, and plants.</p>
                   </Link>
                 </div>
               </div>
             </div>
 
-            <Link to="/portfolio" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>PORTFOLIO</Link>
-            <Link to="/blog" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>BLOG</Link>
+            <Link to="/projects" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>PROJECTS</Link>
+            <Link to="/gallery" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>GALLERY</Link>
+            <Link to="/news" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>NEWS</Link>
             <Link to="/careers" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>CAREERS</Link>
             <Link to="/contact" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>CONTACT US</Link>
           </nav>
@@ -139,15 +144,16 @@ export function Navbar() {
             
             <div className="flex flex-col gap-4">
               <span className="text-slate-400 text-sm font-medium tracking-widest uppercase">SERVICES</span>
-              <Link to="/services/bulletproof-sheet-manufacturing" onClick={() => setIsMobileMenuOpen(false)} className="pl-4 text-slate-700 hover:text-blue-600 transition-colors">Bulletproof Sheet Manufacturing</Link>
-              <Link to="/services/real-estate-infrastructure" onClick={() => setIsMobileMenuOpen(false)} className="pl-4 text-slate-700 hover:text-blue-600 transition-colors">Real Estate & Infrastructure</Link>
-              <Link to="/services/granite" onClick={() => setIsMobileMenuOpen(false)} className="pl-4 text-slate-700 hover:text-blue-600 transition-colors">Granite</Link>
-              <Link to="/services/mines-minerals" onClick={() => setIsMobileMenuOpen(false)} className="pl-4 text-slate-700 hover:text-blue-600 transition-colors">Mines & Minerals</Link>
-              <Link to="/services/sponge-iron" onClick={() => setIsMobileMenuOpen(false)} className="pl-4 text-slate-700 hover:text-blue-600 transition-colors">Sponge Iron</Link>
+              <Link to="/bulletproof-sheets" onClick={() => setIsMobileMenuOpen(false)} className="pl-4 text-slate-700 hover:text-blue-600 transition-colors">Bulletproof Sheet Manufacturing</Link>
+              <Link to="/real-estate-infrastructure" onClick={() => setIsMobileMenuOpen(false)} className="pl-4 text-slate-700 hover:text-blue-600 transition-colors">Real Estate & Infrastructure</Link>
+              <Link to="/granite" onClick={() => setIsMobileMenuOpen(false)} className="pl-4 text-slate-700 hover:text-blue-600 transition-colors">Granite & Natural Stone</Link>
+              <Link to="/mining" onClick={() => setIsMobileMenuOpen(false)} className="pl-4 text-slate-700 hover:text-blue-600 transition-colors">Mines & Minerals</Link>
+              <Link to="/sponge-iron" onClick={() => setIsMobileMenuOpen(false)} className="pl-4 text-slate-700 hover:text-blue-600 transition-colors">Sponge Iron & Steel</Link>
             </div>
 
-            <Link to="/portfolio" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">PORTFOLIO</Link>
-            <Link to="/blog" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">BLOG</Link>
+            <Link to="/projects" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">PROJECTS</Link>
+            <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">GALLERY</Link>
+            <Link to="/news" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">NEWS</Link>
             <Link to="/careers" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">CAREERS</Link>
             <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">CONTACT US</Link>
           </nav>

@@ -40,13 +40,23 @@ service cloud.firestore {
 
     // Job Applications collection
     match /applications/{applicationId} {
-      // Allow candidates to submit their application
       allow create: if isValidId(applicationId)
         && incoming().id == applicationId
         && isValidApplication(incoming());
 
-      // STRICT ADMIN RESTRICTION: Only harrshaglobal@gmail.com can read, list, update, or delete applications
       allow read, update, delete: if isAdmin();
+    }
+
+    // Jobs collection: readable by public, managed by admin
+    match /jobs/{jobId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Archived default jobs tracking
+    match /jobs_archived/{archiveId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // Connection test document

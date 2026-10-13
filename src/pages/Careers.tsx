@@ -22,8 +22,10 @@ import { SEO } from '../components/SEO';
 import { FadeIn } from '../components/FadeIn';
 import { DEPARTMENTS, JOBS_DATA, OFFICE_LOCATIONS, JobListing } from '../data/jobs';
 import { submitApplicationToFirestore } from '../services/applicationsService';
+import { getActiveJobs, ManagedJob } from '../services/jobsService';
 
 export function Careers() {
+  const [jobsList, setJobsList] = useState<ManagedJob[]>(JOBS_DATA);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDepartmentFilter, setSelectedDepartmentFilter] = useState<string>('ALL');
 
@@ -59,10 +61,32 @@ export function Careers() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Fetch live active jobs from Firestore & catalog
+    getActiveJobs().then((jobs) => {
+      if (jobs && jobs.length > 0) {
+        setJobsList(jobs);
+      }
+    }).catch((err) => {
+      console.warn('Failed to load active jobs:', err);
+    });
   }, []);
 
+  // Compute active departments dynamically from current jobs list
+  const activeDepartments = React.useMemo(() => {
+    const set = new Set<string>();
+    // Preserve default order
+    DEPARTMENTS.forEach((d) => {
+      if (jobsList.some((j) => j.department === d)) set.add(d);
+    });
+    // Add any custom departments
+    jobsList.forEach((j) => {
+      if (j.department?.trim()) set.add(j.department.trim());
+    });
+    return Array.from(set);
+  }, [jobsList]);
+
   // Filter jobs
-  const filteredJobs = JOBS_DATA.filter((job) => {
+  const filteredJobs = jobsList.filter((job) => {
     const matchesDept =
       selectedDepartmentFilter === 'ALL' || job.department === selectedDepartmentFilter;
     const query = searchQuery.toLowerCase().trim();
@@ -76,7 +100,7 @@ export function Careers() {
   });
 
   // Group filtered jobs by department
-  const groupedJobs = DEPARTMENTS.reduce<Record<string, JobListing[]>>((acc, dept) => {
+  const groupedJobs = activeDepartments.reduce<Record<string, ManagedJob[]>>((acc, dept) => {
     const jobs = filteredJobs.filter((j) => j.department === dept);
     if (jobs.length > 0) {
       acc[dept] = jobs;
@@ -85,7 +109,7 @@ export function Careers() {
   }, {});
 
   // Handle clicking "Apply" on a job listing
-  const handleApplyClick = (job: JobListing) => {
+  const handleApplyClick = (job: ManagedJob) => {
     setFormData((prev) => ({
       ...prev,
       position: job.post,
@@ -111,7 +135,7 @@ export function Careers() {
   // Dropdown dependency handlers
   const handlePositionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const pos = e.target.value;
-    const matchedJob = JOBS_DATA.find((j) => j.post === pos);
+    const matchedJob = jobsList.find((j) => j.post === pos);
     setFormData((prev) => ({
       ...prev,
       position: pos,
@@ -126,7 +150,7 @@ export function Careers() {
     const dept = e.target.value;
     setFormData((prev) => {
       // Check if current position belongs to new department
-      const currentJob = JOBS_DATA.find((j) => j.post === prev.position);
+      const currentJob = jobsList.find((j) => j.post === prev.position);
       const isStillValid = currentJob && currentJob.department === dept;
       return {
         ...prev,
@@ -305,8 +329,8 @@ export function Careers() {
 
   // Filter positions by selected department in the dropdown
   const availablePositions = formData.department
-    ? JOBS_DATA.filter((j) => j.department === formData.department)
-    : JOBS_DATA;
+    ? jobsList.filter((j) => j.department === formData.department)
+    : jobsList;
 
   return (
     <>
@@ -442,8 +466,8 @@ export function Careers() {
                       onChange={(e) => setSelectedDepartmentFilter(e.target.value)}
                       className="w-full pl-11 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#0B1530] focus:bg-white transition-all text-slate-800 appearance-none cursor-pointer"
                     >
-                      <option value="ALL">All Departments (49 Positions)</option>
-                      {DEPARTMENTS.map((dept) => (
+                      <option value="ALL">All Departments ({jobsList.length} Positions)</option>
+                      {activeDepartments.map((dept) => (
                         <option key={dept} value={dept}>
                           {dept}
                         </option>
@@ -467,10 +491,10 @@ export function Careers() {
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
-                  All ({JOBS_DATA.length})
+                  All ({jobsList.length})
                 </button>
-                {DEPARTMENTS.map((dept) => {
-                  const count = JOBS_DATA.filter((j) => j.department === dept).length;
+                {activeDepartments.map((dept) => {
+                  const count = jobsList.filter((j) => j.department === dept).length;
                   return (
                     <button
                       key={dept}
@@ -528,7 +552,7 @@ export function Careers() {
               </div>
             ) : (
               <div className="space-y-12">
-                {Object.entries(groupedJobs).map(([department, jobs]) => (
+                {(Object.entries(groupedJobs) as [string, ManagedJob[]][]).map(([department, jobs]) => (
                   <div key={department} className="space-y-5">
                     {/* Department Title Header */}
                     <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-3">
@@ -810,7 +834,7 @@ export function Careers() {
                         } rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0B1530] text-slate-900 appearance-none transition-all cursor-pointer`}
                       >
                         <option value="">Select a department</option>
-                        {DEPARTMENTS.map((dept) => (
+                        {activeDepartments.map((dept) => (
                           <option key={dept} value={dept}>
                             {dept}
                           </option>

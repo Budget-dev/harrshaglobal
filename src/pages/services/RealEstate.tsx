@@ -8,25 +8,63 @@ export function RealEstate() {
     window.scrollTo(0, 0);
   }, []);
 
+  const breadcrumbs = [
+    { name: 'Home', url: 'https://www.harrshaglobal.com/' },
+    { name: 'Real Estate & Infrastructure', url: 'https://www.harrshaglobal.com/real-estate-infrastructure' },
+  ];
+
+  const realEstateSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Real Estate & Infrastructure Development',
+    provider: {
+      '@type': 'Organization',
+      name: 'Harrsha Global Private Limited',
+      url: 'https://www.harrshaglobal.com',
+    },
+    description: 'Commercial SEZ developments, industrial park construction, and smart residential townships across Visakhapatnam and Andhra Pradesh.',
+    areaServed: 'India',
+  };
+
   return (
     <>
       <SEO 
-        title="Real Estate & Infrastructure Development"
-        description="Premium residential layouts, gated communities, and self-sufficient smart townships by Harrsha Global. DTCP & VUDA approved construction."
-        url="/services/real-estate-infrastructure"
+        title="Real Estate Infrastructure Development India | Harrsha Global"
+        description="Harrsha Global develops prime commercial SEZs, industrial complexes, smart townships & gated layouts across Visakhapatnam and Andhra Pradesh."
+        url="/real-estate-infrastructure"
+        schema={[
+          realEstateSchema,
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: breadcrumbs.map((b, i) => ({
+              '@type': 'ListItem',
+              position: i + 1,
+              name: b.name,
+              item: b.url,
+            })),
+          },
+        ]}
       />
       <div className="bg-white text-slate-900 min-h-screen selection:bg-slate-950 selection:text-white pt-28 pb-20 px-6 md:px-12">
-        <div className="w-full max-w-4xl mx-auto space-y-16">
+        <div className="w-full max-w-4xl mx-auto space-y-12">
         
-        {/* Simple, Bold, Elegant Editorial Statement */}
+        {/* Breadcrumb Navigation */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-medium text-slate-500">
+          <Link to="/" className="hover:text-blue-700 transition-colors">Home</Link>
+          <span className="text-slate-400">/</span>
+          <span className="text-slate-800 font-semibold">Real Estate & Infrastructure</span>
+        </nav>
+
+        {/* Editorial Statement */}
         <FadeIn delay={0.1}>
           <div className="space-y-4 text-center md:text-left">
             <p className="text-xs font-bold tracking-[0.3em] text-slate-400 uppercase">
-              Harrsha Global
+              Harrsha Global Industrial Division
             </p>
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-950 uppercase leading-none">
-              We Do Real Estate <br />
-              & Infrastructure
+              Real Estate & <br />
+              Infrastructure India
             </h1>
             <p className="text-slate-500 text-sm md:text-base font-normal max-w-xl leading-relaxed pt-2">
               Precision general contracting, concrete framing, insulation, masonry, and exterior facade finishes.
