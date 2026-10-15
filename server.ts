@@ -5,6 +5,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
 import dotenv from 'dotenv';
+import { getPrerenderedPage } from './server-prerender';
 
 dotenv.config();
 
@@ -210,26 +211,136 @@ app.post('/api/applications', upload.single('resume'), async (req: Request, res:
   }
 });
 
-// Start dev Vite or serve production build
-async function startServer() {
-  const isProd = process.env.NODE_ENV === 'production';
+// Canonical, HTTPS, and Legacy URL Redirect Middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const host = (req.headers.host || '').toLowerCase();
+  const proto = ((req.headers['x-forwarded-proto'] as string) || req.protocol).toLowerCase();
 
-  if (!isProd) {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa',
-    });
-    app.use(vite.middlewares);
-  } else {
-    const distPath = path.resolve(__dirname, 'dist');
-    app.use(express.static(distPath));
-    app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.resolve(distPath, 'index.html'));
-    });
+  // 1. Force canonical domain: harrshaglobal.com -> https://www.harrshaglobal.com
+  if (host === 'harrshaglobal.com') {
+    return res.redirect(301, `https://www.harrshaglobal.com${req.originalUrl}`);
   }
 
+  // 2. Force HTTPS on custom domain
+  if (host.includes('harrshaglobal.com') && proto === 'http') {
+    return res.redirect(301, `https://${host}${req.originalUrl}`);
+  }
+
+  // 3. Remove trailing slashes (except root '/')
+  if (req.path.length > 1 && req.path.endsWith('/')) {
+    const query = req.url.slice(req.path.length);
+    return res.redirect(301, req.path.slice(0, -1) + query);
+  }
+
+  // 4. Legacy routes mapping (301 permanent redirects)
+  const legacyRedirects: Record<string, string> = {
+    '/services/mines-minerals': '/mining',
+    '/services/sponge-iron': '/sponge-iron',
+    '/services/granite': '/granite',
+    '/services/bulletproof-sheet-manufacturing': '/bulletproof-sheets',
+    '/services/real-estate-infrastructure': '/real-estate-infrastructure',
+    '/portfolio': '/projects',
+    '/blog': '/news',
+  };
+
+  if (legacyRedirects[req.path]) {
+    return res.redirect(301, legacyRedirects[req.path]);
+  }
+
+  next();
+});
+
+// Explicit sitemap.xml and robots.txt headers
+app.get('/robots.txt', (_req: Request, res: Response) => {
+  const robotsPath = path.resolve(__dirname, 'public', 'robots.txt');
+  res.type('text/plain; charset=UTF-8');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.sendFile(robotsPath);
+});
+
+app.get('/sitemap.xml', (_req: Request, res: Response) => {
+  const sitemapPath = path.resolve(__dirname, 'public', 'sitemap.xml');
+  res.type('application/xml; charset=UTF-8');
+  res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.sendFile(sitemapPath);
+});
+
+// Start dev Vite or serve production build with full SSR/Pre-rendering
+async function startServer() {
+  const isProd = process.env.NODE_ENV === 'production';
+  const indexPath = isProd
+    ? path.resolve(__dirname, 'dist', 'index.html')
+    : path.resolve(__dirname, 'index.html');
+
+  if (isProd) {
+    const distPath = path.resolve(__dirname, 'dist');
+    // Serve static assets with caching headers
+    app.use(express.static(distPath, { index: false, maxAge: '7d' }));
+  }
+
+  let vite: any = null;
+  if (!isProd) {
+    vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: 'custom',
+    });
+    // Mount vite static asset middleware (excluding HTML route handler)
+    app.use(vite.middlewares);
+  }
+
+  // Route HTML requests through Pre-rendering engine
+  app.get('*', async (req: Request, res: Response, next: NextFunction) => {
+    const url = req.originalUrl;
+
+    // Skip internal Vite or static requests
+    if (
+      url.startsWith('/api') ||
+      url.startsWith('/@') ||
+      url.startsWith('/src') ||
+      url.startsWith('/node_modules') ||
+      url.includes('.')
+    ) {
+      return next();
+    }
+
+    try {
+      let rawTemplate = fs.readFileSync(indexPath, 'utf-8');
+
+      // In dev, apply Vite HTML transforms (HMR client scripts, module imports)
+      if (!isProd && vite) {
+        rawTemplate = await vite.transformIndexHtml(url, rawTemplate);
+      }
+
+      // If accessing admin routes, return clean SPA template without indexing
+      if (req.path.startsWith('/admin')) {
+        let adminHtml = rawTemplate.replace(
+          /<meta\s+name="robots"\s+content=".*?"\s*\/?>/i,
+          '<meta name="robots" content="noindex, nofollow" />'
+        );
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+        return res.status(200).set({ 'Content-Type': 'text/html; charset=UTF-8' }).end(adminHtml);
+      }
+
+      // Process route with SSR Prerendering Engine
+      const { html, status } = getPrerenderedPage(req.path, rawTemplate);
+
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      if (status === 404) {
+        res.setHeader('X-Robots-Tag', 'noindex, follow');
+      }
+
+      return res.status(status).set({ 'Content-Type': 'text/html; charset=UTF-8' }).end(html);
+    } catch (e: any) {
+      if (!isProd && vite) {
+        vite.ssrFixStacktrace(e);
+      }
+      console.error('Prerender error:', e);
+      next(e);
+    }
+  });
+
   app.listen(PORT, HOST, () => {
-    console.log(`Server listening at http://${HOST}:${PORT}`);
+    console.log(`Server listening at http://${HOST}:${PORT} [SEO Prerender Enabled]`);
   });
 }
 

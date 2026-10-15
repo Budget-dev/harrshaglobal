@@ -90,6 +90,9 @@ export function Footer() {
               <Link to="/careers" className="block text-blue-700 dark:text-blue-400 font-bold hover:underline transition-colors">
                 Careers & Openings (49 Posts)
               </Link>
+              <Link to="/office-staff-recruitment" className="block text-emerald-700 dark:text-emerald-400 font-semibold hover:underline transition-colors">
+                Office Staff Recruitment (A-Z)
+              </Link>
               <Link to="/contact" className="block text-zinc-600 dark:text-zinc-400 hover:text-blue-700 dark:hover:text-blue-400 transition-colors">
                 Contact & Procurement
               </Link>

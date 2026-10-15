@@ -1,4 +1,5 @@
 import React, { useState, useId, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Briefcase, 
   Search, 
@@ -421,10 +422,17 @@ export function Careers() {
                 <span>•</span>
                 <span className="text-slate-700 font-semibold">info@harrshaglobal.com</span>
               </div>
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-center gap-2">
+              <div className="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-center gap-3">
                 <span className="text-xs md:text-sm font-bold uppercase tracking-wider text-[#0B1530] bg-slate-100 px-3.5 py-1 rounded-md">
-                  Complete Job List - Salary & Qualification (2026)
+                  Complete Job List - Qualifications & Requirements (2026)
                 </span>
+                <Link
+                  to="/office-staff-recruitment"
+                  className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-md bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-2xs"
+                >
+                  <Sparkles size={14} className="text-amber-300" />
+                  A to Z Office Staff Recruitment &rarr;
+                </Link>
               </div>
             </div>
 

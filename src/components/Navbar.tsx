@@ -102,6 +102,7 @@ export function Navbar() {
             <Link to="/gallery" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>GALLERY</Link>
             <Link to="/news" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>NEWS</Link>
             <Link to="/careers" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>CAREERS</Link>
+            <Link to="/office-staff-recruitment" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase text-blue-700 font-bold`}>OFFICE RECRUITMENT</Link>
             <Link to="/contact" className={`${textColorDim} transition-colors text-xs font-medium tracking-widest uppercase`}>CONTACT US</Link>
           </nav>
 
@@ -155,6 +156,7 @@ export function Navbar() {
             <Link to="/gallery" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">GALLERY</Link>
             <Link to="/news" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">NEWS</Link>
             <Link to="/careers" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">CAREERS</Link>
+            <Link to="/office-staff-recruitment" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase text-blue-700 hover:text-blue-900 transition-colors">OFFICE STAFF RECRUITMENT (A-Z)</Link>
             <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium tracking-widest uppercase hover:text-blue-600 transition-colors">CONTACT US</Link>
           </nav>
         </div>

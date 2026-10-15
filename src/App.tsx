@@ -8,6 +8,7 @@ import { Blog } from './pages/Blog';
 import { Portfolio } from './pages/Portfolio';
 import { Gallery } from './pages/Gallery';
 import { Careers } from './pages/Careers';
+import { OfficeStaffRecruitment } from './pages/OfficeStaffRecruitment';
 import { AdminApplications } from './pages/AdminApplications';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { TermsOfService } from './pages/TermsOfService';
@@ -17,6 +18,7 @@ import { RealEstate } from './pages/services/RealEstate';
 import { Granite } from './pages/services/Granite';
 import { MinesMinerals } from './pages/services/MinesMinerals';
 import { SpongeIron } from './pages/services/SpongeIron';
+import { MineralsTrading } from './pages/services/MineralsTrading';
 import { ScrollToTop } from './components/ScrollToTop';
 import { FooterCTA } from './components/FooterCTA';
 import { WhatsAppButton } from './components/WhatsAppButton';
@@ -33,10 +35,11 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/office-staff-recruitment" element={<OfficeStaffRecruitment />} />
 
           {/* Clean URL Structure for Divisions */}
           <Route path="/mining" element={<MinesMinerals />} />
-          <Route path="/minerals" element={<MinesMinerals />} />
+          <Route path="/minerals" element={<MineralsTrading />} />
           <Route path="/sponge-iron" element={<SpongeIron />} />
           <Route path="/granite" element={<Granite />} />
           <Route path="/bulletproof-sheets" element={<BulletproofSheet />} />

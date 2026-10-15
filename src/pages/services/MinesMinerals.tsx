@@ -167,7 +167,6 @@ export function MinesMinerals() {
               Mines & Mineral <br />
               Processing India
             </h1>
-            </h1>
             <p className="text-slate-500 text-sm md:text-base font-normal max-w-xl leading-relaxed pt-2">
               High-volume mineral excavation, mechanical dry screening, standardized lab grade certifications, and secure multimodal logistics.
             </p>
